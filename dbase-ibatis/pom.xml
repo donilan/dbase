@@ -8,8 +8,8 @@
 		<groupId>com.ii2d</groupId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>dbase-ibatis</artifactId>
-	<name>dbase-ibatis</name>
+	<artifactId>dbase-mybatis</artifactId>
+	<name>dbase-mybatis</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
