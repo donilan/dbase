@@ -6,6 +6,7 @@ import java.util.List;
  * Base mybatis dao
  * @author Doni
  * @since 2012-09-09
+ * @version $id$
  */
 public interface BaseMyBatisDAO {
 
