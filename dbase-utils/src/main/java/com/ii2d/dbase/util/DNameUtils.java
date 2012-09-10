@@ -1,7 +1,7 @@
-package org.dbase.utils;
+package com.ii2d.dbase.util;
 
 
-public class NameUtils {
+public class DNameUtils {
 	
 	public static String toCamelName(String str) {
 		
