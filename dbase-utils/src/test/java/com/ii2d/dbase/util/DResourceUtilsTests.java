@@ -26,4 +26,10 @@ public class DResourceUtilsTests extends TestCase {
 	public void testGetResourceAsReader() throws IOException {
 		DResourceUtils.getResourceAsReader("   classpath:   stylesheet.css    ");
 	}
+	
+	public void testGetResourceAsArchiveInputStream() throws IOException{
+		DResourceUtils.getResourceAsArchiveInputStream("classpath:org");
+		
+	}
+	
 }
