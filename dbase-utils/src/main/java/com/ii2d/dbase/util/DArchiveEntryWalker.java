@@ -15,7 +15,7 @@ import org.apache.commons.compress.archivers.ArchiveInputStream;
  */
 public abstract class DArchiveEntryWalker<T> {
 
-	protected final void walk(ArchiveInputStream in, Collection<T> results) throws IOException {
+	public final void walk(ArchiveInputStream in, Collection<T> results) throws IOException {
 		if (in == null) {
             throw new NullPointerException("Start entry is null");
         }
