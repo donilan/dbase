@@ -2,12 +2,15 @@
 package com.ii2d.dbase.util;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 import java.util.Properties;
+
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * Resource utils
@@ -18,6 +21,11 @@ import java.util.Properties;
  * 
  */
 public class DResourceUtils {
+
+	/** Pseudo URL prefix for loading from the class path: "classpath:" */
+	public final static String CLASSPATH_URL_PREFIX = "classpath:";
+	/** URL prefix for loading from the file system: "file:" */
+	public final static String FILE_URL_PREFIX = "file:";
 
 	/**
 	 * @see #getResourceURL(ClassLoader, String)
@@ -44,16 +52,35 @@ public class DResourceUtils {
 	public static URL getResourceURL(ClassLoader cl, String resource)
 			throws IOException {
 		URL url = null;
-		if (cl != null) {
-			url = cl.getResource(resource);
+		if (StringUtils.isNotBlank(resource)) {
+			String tmp = _removePrefix(resource, CLASSPATH_URL_PREFIX);
+			if (tmp != null) {
+				if (cl != null) {
+					url = cl.getResource(tmp);
+				}
+				if (url == null) {
+					url = ClassLoader.getSystemResource(tmp);
+					if (url != null)
+						return url;
+				} else {
+					return url;
+				}
+			} else {
+				tmp = _removePrefix(resource, FILE_URL_PREFIX);
+				if (tmp == null) {
+					tmp = resource;
+				}
+				return new File(tmp).toURI().toURL();
+			}
 		}
-		if (url == null) {
-			url = ClassLoader.getSystemResource(resource);
-		}
-		if (url == null) {
-			throw new IOException("Could not found resource " + resource);
-		}
-		return url;
+		throw new IOException("Could not found resource " + resource);
+	}
+
+	private static String _removePrefix(String resource, String prefix) {
+		resource = StringUtils.trimToEmpty(resource);
+		if (resource.startsWith(prefix))
+			return StringUtils.trimToNull(resource.substring(prefix.length()));
+		return null;
 	}
 
 	/**
@@ -72,16 +99,27 @@ public class DResourceUtils {
 	public static InputStream getResourceAsStream(ClassLoader cl,
 			String resource) throws IOException {
 		InputStream in = null;
-		if (cl != null) {
-			in = cl.getResourceAsStream(resource);
+		if (StringUtils.isNotBlank(resource)) {
+			String tmp = _removePrefix(resource, CLASSPATH_URL_PREFIX);
+			if (tmp != null) {
+				if (cl != null) {
+					in = cl.getResourceAsStream(tmp);
+				}
+				if (in == null) {
+					in = ClassLoader.getSystemResourceAsStream(tmp);
+					if (in != null)
+						return in;
+				} else {
+					return in;
+				}
+			} else {
+				tmp = _removePrefix(resource, FILE_URL_PREFIX);
+				if (tmp != null)
+					tmp = resource;
+				return new FileInputStream(tmp);
+			}
 		}
-		if (in == null) {
-			in = ClassLoader.getSystemResourceAsStream(resource);
-		}
-		if (in == null) {
-			throw new IOException("Could not find resource " + resource);
-		}
-		return in;
+		throw new IOException("Could not find resource " + resource);
 	}
 
 	/**
@@ -91,8 +129,7 @@ public class DResourceUtils {
 	 */
 	public static InputStream getResourceAsStream(String resource)
 			throws IOException {
-		return getResourceAsStream(getDefaultClassLoad(),
-				resource);
+		return getResourceAsStream(getDefaultClassLoad(), resource);
 	}
 
 	/**
@@ -118,22 +155,24 @@ public class DResourceUtils {
 			throws IOException {
 		return getResourceAsProperties(getDefaultClassLoad(), resource);
 	}
-	
+
 	/**
 	 * @see #getResourceAsStream(ClassLoader, String)
 	 * @author Doni
 	 * @since 2012-9-10
 	 */
-	public static Reader getResourceAsReader(ClassLoader cl, String resource) throws IOException {
+	public static Reader getResourceAsReader(ClassLoader cl, String resource)
+			throws IOException {
 		return new InputStreamReader(getResourceAsStream(cl, resource));
 	}
-	
+
 	/**
 	 * @see #getResourceAsStream(ClassLoader, String)
 	 * @author Doni
 	 * @since 2012-9-10
 	 */
-	public static Reader getResourceAsReader(String resource) throws IOException {
+	public static Reader getResourceAsReader(String resource)
+			throws IOException {
 		return getResourceAsReader(getDefaultClassLoad(), resource);
 	}
 
@@ -142,10 +181,11 @@ public class DResourceUtils {
 	 * @author Doni
 	 * @since 2012-9-10
 	 */
-	public static File getResourceAsFile(ClassLoader cl, String resource) throws IOException {
+	public static File getResourceAsFile(ClassLoader cl, String resource)
+			throws IOException {
 		return new File(getResourceURL(cl, resource).getFile());
 	}
-	
+
 	/**
 	 * @see #getResourceAsURL(ClassLoader, String)
 	 * @author Doni
@@ -154,8 +194,10 @@ public class DResourceUtils {
 	public static File getResourceAsFile(String resource) throws IOException {
 		return getResourceAsFile(getDefaultClassLoad(), resource);
 	}
+
 	/**
 	 * Get default class loader
+	 * 
 	 * @author Doni
 	 * @since 2012-9-10
 	 * @return
@@ -163,4 +205,5 @@ public class DResourceUtils {
 	private static ClassLoader getDefaultClassLoad() {
 		return DResourceUtils.class.getClassLoader();
 	}
+
 }

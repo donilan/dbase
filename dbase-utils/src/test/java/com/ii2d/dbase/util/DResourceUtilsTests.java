@@ -2,6 +2,7 @@
 package com.ii2d.dbase.util;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import junit.framework.TestCase;
 
@@ -14,6 +15,15 @@ import junit.framework.TestCase;
 public class DResourceUtilsTests extends TestCase {
 
 	public void testGetResourceAsFile() throws IOException {
-		DResourceUtils.getResourceAsFile("stylesheet.css");
+		DResourceUtils.getResourceAsFile("classpath:stylesheet.css");
+	}
+	
+	public void testGetResourceAsStream() throws IOException{
+		InputStream in = DResourceUtils.getResourceAsStream("classpath:  stylesheet.css");
+		assertTrue(in.available() > 0);
+	}
+	
+	public void testGetResourceAsReader() throws IOException {
+		DResourceUtils.getResourceAsReader("   classpath:   stylesheet.css    ");
 	}
 }
