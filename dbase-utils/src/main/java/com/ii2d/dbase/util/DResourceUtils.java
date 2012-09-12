@@ -141,7 +141,7 @@ public class DResourceUtils {
 				}
 			} else {
 				tmp = _removePrefix(resource, FILE_URL_PREFIX);
-				if (tmp != null)
+				if (tmp == null)
 					tmp = resource;
 				return new FileInputStream(tmp);
 			}
