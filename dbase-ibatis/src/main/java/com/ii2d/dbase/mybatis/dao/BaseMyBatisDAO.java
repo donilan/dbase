@@ -28,7 +28,7 @@ public interface BaseMyBatisDAO {
 	 * @author Doni
 	 * @since 2012-9-9
 	 */
-	<T> T queryForOne(Long id);
+	<T> T queryForOne(Object id, Class<?> clazz);
 	
 	/**
 	 * count objects from a table

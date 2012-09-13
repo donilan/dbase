@@ -53,11 +53,4 @@
 		<constructor-arg index="0" ref="sqlSessionFactory" />
 	</bean>
 
-
-	<bean id="commonServic" class="com.ii2d.dbase.mybatis.service.CommonService" >
-		<property name="dao" ref="commonDao"></property>
-	</bean>
-	<bean id="commonDao" class="com.ii2d.dbase.mybatis.dao.impl.CommonMyBatisDAO">
-		<property name="sqlSession" ref="sqlSession"></property>
-	</bean>
 </beans>

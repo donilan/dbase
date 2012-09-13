@@ -54,8 +54,8 @@ public abstract class AbstractMyBatisDAOImpl implements BaseMyBatisDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> T queryForOne(Long id) {
-		return (T) sqlSession.selectOne(METHOD_SELECT_ONE, id);
+	public <T> T queryForOne(Object id, Class<?> clazz) {
+		return (T) sqlSession.selectOne(_getSqlMapId(METHOD_SELECT_ONE, clazz), id);
 	}
 
 	@Override
@@ -110,10 +110,17 @@ public abstract class AbstractMyBatisDAOImpl implements BaseMyBatisDAO {
 	 * @return example insert_Object
 	 */
 	protected String _getSqlMapId(String method, Object o) {
-		if (o == null || Object.class.equals(o.getClass())) {
+		if (o == null ) {
 			throw new RuntimeException(
-					"Object cann't be null or clazz cann't be object class.");
+					"Param object cann't be null.");
 		}
-		return String.format("%s_%s", method, o.getClass().getSimpleName());
+		return _getSqlMapId(method, o.getClass());
+	}
+	
+	protected String _getSqlMapId(String method, Class<?> clazz) {
+		if(clazz == null || Object.class.equals(clazz))
+			throw new RuntimeException(
+					"Param clazz cann't be null or equals Object class.");
+		return String.format("%s_%s", method, clazz.getSimpleName());
 	}
 }

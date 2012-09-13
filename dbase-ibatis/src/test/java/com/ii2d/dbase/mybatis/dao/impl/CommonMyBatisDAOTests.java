@@ -20,7 +20,7 @@ public class CommonMyBatisDAOTests extends TestCase {
 	private ApplicationContext ac;
 	
 	public void setUp() {
-		ac = new ClassPathXmlApplicationContext("classpath:com/ii2d/dbase/mybatis/applicationContext-mybatis.xml");
+		ac = new ClassPathXmlApplicationContext("classpath:applicationContext-mybatis-test.xml");
 	}
 
 	public void test_getSqlMapId() {
@@ -34,7 +34,7 @@ public class CommonMyBatisDAOTests extends TestCase {
 		User u = new User();
 		u.setUsername("username");
 		u.setPassword("123456");
-//		dao.insert(u);
+		dao.insert(u);
 	}
 	
 	public void testTransaction() {
