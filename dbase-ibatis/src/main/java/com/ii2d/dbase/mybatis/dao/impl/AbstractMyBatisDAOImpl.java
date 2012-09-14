@@ -17,13 +17,13 @@ import com.ii2d.dbase.mybatis.dao.BaseMyBatisDAO;
  */
 public abstract class AbstractMyBatisDAOImpl implements BaseMyBatisDAO {
 
-	protected static final String METHOD_INSERT = "insert";
-	protected static final String METHOD_UPDATE = "update";
-	protected static final String METHOD_DELETE = "delete";
-	protected static final String METHOD_SELECT = "select";
-	protected static final String METHOD_SELECT_ONE = "select_one";
-	protected static final String METHOD_LIMIT_SELECT = "limit_select";
-	protected static final String METHOD_COUNT = "count";
+	public static final String METHOD_INSERT = "insert";
+	public static final String METHOD_UPDATE = "update";
+	public static final String METHOD_DELETE = "delete";
+	public static final String METHOD_SELECT = "select";
+	public static final String METHOD_SELECT_BY_ID = "select_by_id";
+	public static final String METHOD_LIMIT_SELECT = "limit_select";
+	public static final String METHOD_COUNT = "count";
 
 	protected org.apache.ibatis.session.SqlSession sqlSession;
 
@@ -54,8 +54,8 @@ public abstract class AbstractMyBatisDAOImpl implements BaseMyBatisDAO {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public <T> T queryForOne(Object id, Class<?> clazz) {
-		return (T) sqlSession.selectOne(_getSqlMapId(METHOD_SELECT_ONE, clazz), id);
+	public <T> T queryForById(Object id, Class<?> clazz) {
+		return (T) sqlSession.selectOne(_getSqlMapId(METHOD_SELECT_BY_ID, clazz), id);
 	}
 
 	@Override

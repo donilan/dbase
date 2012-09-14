@@ -19,43 +19,42 @@ public class BaseMyBatisModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	protected Map<String, Object> or;
-	protected Map<String, Object> like;
-	protected List<String> orderBy;
+	protected Map<String, Object> orEq = new HashMap<String, Object>();
+	protected Map<String, Object> orLike = new HashMap<String, Object>();
+	protected Map<String, Object> andEq = new HashMap<String, Object>();
+	protected Map<String, Object> andLike = new HashMap<String, Object>();
+	protected int limitStartRow;
+	protected int limitEndRow;
+	protected List<String> orderBy = new ArrayList<String>();
 	protected boolean asc = true;
 	
-	/**
-	 * Add or param to mybatis sql map
-	 * @author Doni
-	 * @since 2012-9-13
-	 * @param prop Property
-	 * @param val Value for search
-	 * @return false if val is null
-	 */
-	public boolean or(String prop, Object val) {
-		if(or == null) or = new HashMap<String, Object>();
+	public BaseMyBatisModel orEq(String prop, Object val) {
 		if(val != null) {
-			or.put(prop, val);
-			return true;
+			orEq.put(prop, val);
 		}
-		return false;
+		return this;
 	}
 	
-	/**
-	 * Add like param to mybatis sql map
-	 * @author Doni
-	 * @since 2012-9-13
-	 * @param prop Property
-	 * @param val Value for search
-	 * @return false if val is null
-	 */
-	public boolean like(String prop, Object val) {
-		if(like == null) like = new HashMap<String, Object>();
+
+	public BaseMyBatisModel orLike(String prop, String val) {
 		if(val != null) {
-			like.put(prop, val);
-			return true;
+			orLike.put(prop, val);
 		}
-		return false;
+		return this;
+	}
+	
+	public BaseMyBatisModel andLike(String prop, String val) {
+		if(val != null) {
+			andLike.put(prop, val);
+		}
+		return this;
+	}
+	
+	public BaseMyBatisModel andEq(String prop, String val) {
+		if(val != null) {
+			andEq.put(prop, val);
+		}
+		return this;
 	}
 	
 	/**
@@ -63,34 +62,62 @@ public class BaseMyBatisModel implements Serializable {
 	 * @author Doni
 	 * @since 2012-9-13
 	 * @param column Column in table 
-	 * @return false if column is null
+	 * @return this
 	 */
-	public boolean orderBy(String column) {
-		if(this.orderBy == null) this.orderBy = new ArrayList<String>();
-		if(StringUtils.isNotEmpty(column)) {
-			return this.orderBy.add(column);
+	public BaseMyBatisModel orderBy(String column) {
+		if(StringUtils.isNotEmpty(column) && column.length() < 40) {
+			this.orderBy.add(column);
 		}
-		return false;
+		return this;
+	}
+	public BaseMyBatisModel orderBy(List<String> orderBy) {
+		this.orderBy = orderBy;
+		return this;
+	}
+	public BaseMyBatisModel limitStartRow(int limitStartRow) {
+		this.limitStartRow = limitStartRow;
+		return this;
+	}
+	public BaseMyBatisModel limitEndRow(int limitEndRow) {
+		this.limitEndRow = limitEndRow;
+		return this;
+	}
+	public BaseMyBatisModel asc(boolean asc) {
+		this.asc = asc;
+		return this;
 	}
 
 	public boolean isAsc() {
 		return asc;
 	}
 
-	public void setAsc(boolean asc) {
-		this.asc = asc;
+	public Map<String, Object> getOrEq() {
+		return orEq;
 	}
 
-	public Map<String, Object> getOr() {
-		return or;
+	public Map<String, Object> getOrLike() {
+		return orLike;
 	}
 
-	public Map<String, Object> getLike() {
-		return like;
+	public Map<String, Object> getAndEq() {
+		return andEq;
+	}
+
+	public Map<String, Object> getAndLike() {
+		return andLike;
 	}
 
 	public List<String> getOrderBy() {
 		return orderBy;
 	}
-	
+
+
+	public int getLimitStartRow() {
+		return limitStartRow;
+	}
+
+	public int getLimitEndRow() {
+		return limitEndRow;
+	}
+
 }

@@ -6,7 +6,7 @@ import junit.framework.TestCase;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.ii2d.dbase.mybatis.modul.User;
+import com.ii2d.dbase.mybatis.model.User;
 import com.ii2d.dbase.mybatis.service.CommonService;
 
 /**

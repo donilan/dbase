@@ -1,5 +1,5 @@
 //~ generate by eclipse
-package com.ii2d.dbase.mybatis.modul;
+package com.ii2d.dbase.mybatis.model;
 
 /**
  * @author Doni

@@ -2,7 +2,7 @@
 package com.ii2d.dbase.mybatis.service;
 
 import com.ii2d.dbase.mybatis.dao.impl.CommonMyBatisDAO;
-import com.ii2d.dbase.mybatis.modul.User;
+import com.ii2d.dbase.mybatis.model.User;
 
 /**
  * @author Doni
