@@ -2,6 +2,8 @@ package com.ii2d.dbase.mybatis.dao;
 
 import java.util.List;
 
+import com.ii2d.dbase.mybatis.model.BaseMyBatisModel;
+
 /**
  * Base mybatis dao
  * @author Doni
@@ -14,14 +16,14 @@ public interface BaseMyBatisDAO {
 	 * Insert an object
 	 * @return success return great than 0, fail return less than 0
 	 */
-	int insert(Object o);
+	int insert(BaseMyBatisModel o);
 	
 	/**
 	 * update an object
 	 */
-	int update(Object o);
+	int update(BaseMyBatisModel o);
 	
-	int delete(Object o);
+	int delete(BaseMyBatisModel o);
 	
 	/**
 	 * query an object by id
@@ -35,14 +37,14 @@ public interface BaseMyBatisDAO {
 	 * @author Doni
 	 * @since 2012-9-9
 	 */
-	Long count(Object o);
+	Long count(BaseMyBatisModel o);
 	
 	/**
 	 * @see #queryForList(String, Object)
 	 * @author Doni
 	 * @since 2012-9-9
 	 */
-	<T> List<T> queryForList(Object o);
+	<T> List<T> queryForList(BaseMyBatisModel o);
 	
 	/**
 	 * @see #queryForList(String, Object, int, int)
@@ -50,7 +52,7 @@ public interface BaseMyBatisDAO {
 	 * @since 2012-9-9
 	 * @return
 	 */
-	<T> List<T> queryForList(Object o, int page, int rows);
+	<T> List<T> queryForList(BaseMyBatisModel o, int page, int rows);
 	
 	/**
 	 * 
