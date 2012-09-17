@@ -38,9 +38,10 @@ public abstract class AbstractMyBatisDAOImpl implements BaseMyBatisDAO {
 	}
 
 	@Override
-	public int delete(BaseMyBatisModel o) {
-		Assert.notNull(o);
-		return sqlSession.update(_getSqlMapId(METHOD_DELETE, o), o);
+	public int delete(Object id, Class clazz) {
+		Assert.notNull(clazz);
+		Assert.notNull(id);
+		return sqlSession.update(_getSqlMapId(METHOD_DELETE, clazz), id);
 	}
 
 	@Override

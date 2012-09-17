@@ -23,7 +23,7 @@ public interface BaseMyBatisDAO {
 	 */
 	int update(BaseMyBatisModel o);
 	
-	int delete(BaseMyBatisModel o);
+	int delete(Object id, Class clazz);
 	
 	/**
 	 * query an object by id
@@ -73,4 +73,6 @@ public interface BaseMyBatisDAO {
 	 * @return
 	 */
 	<T> List<T> queryForList(String sqlMapId, Object o, int page, int rows);
+
+	
 }
