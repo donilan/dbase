@@ -13,8 +13,11 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<spring.version>3.1.2.RELEASE</spring.version>
-		<mybatis.version>3.0.1</mybatis.version>
+		<spring.version>3.1.1.RELEASE</spring.version>
+		<log4j.version>1.2.15</log4j.version>
+		<mybatis.version>3.1.0</mybatis.version>
+		<mybatis.spring.version>1.1.1</mybatis.spring.version>
+		<cglib.version>2.2.2</cglib.version>
 	</properties>
 
 
@@ -36,6 +39,11 @@
 			<artifactId>junit</artifactId>
 			<version>3.8.1</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j.version}</version>
 		</dependency>
 	</dependencies>
 
