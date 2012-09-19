@@ -25,7 +25,7 @@ import com.ii2d.dbase.util.DResourceUtils;
 @RequestMapping("/resources")
 public class ResourcesController {
 
-	@RequestMapping(value = "{fileName}/{version}", method = RequestMethod.GET)
+	@RequestMapping(value = "js/{fileName}/{version}", method = RequestMethod.GET)
 	public void js(
 			@PathVariable("fileName") String fileName,
 			@PathVariable("version") String version,
@@ -48,7 +48,7 @@ public class ResourcesController {
 
 	}
 	
-	@RequestMapping(value = "{fileName}/{version}", method = RequestMethod.GET)
+	@RequestMapping(value = "css/{fileName}/{version}", method = RequestMethod.GET)
 	public void css(
 			@PathVariable("fileName") String fileName,
 			@PathVariable("version") String version,
