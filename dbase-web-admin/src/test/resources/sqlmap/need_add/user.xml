@@ -1,0 +1,2 @@
+<mapper resource="sqlmap/user.xml"/>
+<mapper resource="sqlmap/ext/userExt.xml"/>

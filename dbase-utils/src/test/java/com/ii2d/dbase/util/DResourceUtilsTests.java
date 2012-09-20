@@ -28,7 +28,7 @@ public class DResourceUtilsTests extends TestCase {
 	}
 	
 	public void testGetResourceAsArchiveInputStream() throws IOException{
-		DResourceUtils.getResourceAsArchiveInputStream("classpath:org");
+		DResourceUtils.getResourceAsArchiveInputStream("classpath:com/ii2d/genthemall/template/commons/model/__PATH__/model/__PASCAL_NAME__.java");
 		
 	}
 	

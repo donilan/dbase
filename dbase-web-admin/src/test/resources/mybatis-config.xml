@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="cacheEnabled" value="false" />
+		<setting name="lazyLoadingEnabled" value="false" />
+	</settings>
+	<mappers>
+		<mapper resource="sqlmap/user.xml"/>
+		<mapper resource="sqlmap/news.xml"/>
+		<mapper resource="sqlmap/newsType.xml"/>
+		<mapper resource="sqlmap/shop.xml"/>
+		<mapper resource="sqlmap/userAbcInfo.xml"/>
+	</mappers>
+</configuration>

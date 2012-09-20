@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="com.ii2d.model">
+
+	<!-- result map for com.ii2d.UserAbcInfo -->
+	<resultMap type="com.ii2d.model.UserAbcInfo" id="userAbcInfo">
+	<result column="id" property="id" javaType="java.lang.Integer"/>
+	<result column="user_id" property="userId" javaType="java.lang.Integer"/>
+	<result column="sign_status" property="signStatus" javaType="java.lang.Integer"/>
+	<result column="customer_no" property="customerNo" javaType="java.lang.String"/>
+	<result column="customer_name" property="customerName" javaType="java.lang.String"/>
+	<result column="authorize_status" property="authorizeStatus" javaType="java.lang.Integer"/>
+	</resultMap>
+	
+
+	<!-- select by id sql -->
+	<select id="select_by_id_UserAbcInfo" useCache="true" resultMap="userAbcInfo" >
+		SELECT * FROM user_abc_info WHERE id = #{value}
+	</select>
+
+	<select id="select_UserAbcInfo" resultMap="userAbcInfo" >
+		SELECT * FROM user_abc_info
+		<trim prefix="WHERE" prefixOverrides="OR|AND">
+			
+			<if test="orEq.userId != null">OR user_id = #{orEq.userId}</if>
+			<if test="orLike.userId != null">OR user_id LIKE concat('%', #{orLike.userId}, '%')</if>
+			<if test="andEq.userId != null">AND user_id = #{andEq.userId}</if>
+			<if test="andLike.userId != null">AND user_id LIKE concat('%', #{andLike.userId}, '%')</if>
+			
+			<if test="orEq.signStatus != null">OR sign_status = #{orEq.signStatus}</if>
+			<if test="orLike.signStatus != null">OR sign_status LIKE concat('%', #{orLike.signStatus}, '%')</if>
+			<if test="andEq.signStatus != null">AND sign_status = #{andEq.signStatus}</if>
+			<if test="andLike.signStatus != null">AND sign_status LIKE concat('%', #{andLike.signStatus}, '%')</if>
+			
+			<if test="orEq.customerNo != null">OR customer_no = #{orEq.customerNo}</if>
+			<if test="orLike.customerNo != null">OR customer_no LIKE concat('%', #{orLike.customerNo}, '%')</if>
+			<if test="andEq.customerNo != null">AND customer_no = #{andEq.customerNo}</if>
+			<if test="andLike.customerNo != null">AND customer_no LIKE concat('%', #{andLike.customerNo}, '%')</if>
+			
+			<if test="orEq.customerName != null">OR customer_name = #{orEq.customerName}</if>
+			<if test="orLike.customerName != null">OR customer_name LIKE concat('%', #{orLike.customerName}, '%')</if>
+			<if test="andEq.customerName != null">AND customer_name = #{andEq.customerName}</if>
+			<if test="andLike.customerName != null">AND customer_name LIKE concat('%', #{andLike.customerName}, '%')</if>
+			
+			<if test="orEq.authorizeStatus != null">OR authorize_status = #{orEq.authorizeStatus}</if>
+			<if test="orLike.authorizeStatus != null">OR authorize_status LIKE concat('%', #{orLike.authorizeStatus}, '%')</if>
+			<if test="andEq.authorizeStatus != null">AND authorize_status = #{andEq.authorizeStatus}</if>
+			<if test="andLike.authorizeStatus != null">AND authorize_status LIKE concat('%', #{andLike.authorizeStatus}, '%')</if>
+			
+			
+		</trim>
+		<choose>
+			<when test="limitStartRow gt -1 and limitEndRow gt 0" >
+				LIMIT #{limitStartRow}, #{limitEndRow}
+			</when>
+			<when test="orderBy.size gt 0">
+				ORDER BY 
+				<trim suffixOverrides=",">
+					<foreach collection="orderBy" item="it">${it}, </foreach>
+				</trim>
+			</when>
+		</choose>
+	</select>
+	<!-- Count table. -->
+	<select id="count_UserAbcInfo" resultType="java.lang.Long">
+		SELECT COUNT(1) FROM user_abc_info
+		<trim prefix="WHERE" prefixOverrides="OR|AND">
+			
+			<if test="orEq.userId != null">OR user_id = #{orEq.userId}</if>
+			<if test="orLike.userId != null">OR user_id LIKE concat('%', #{orLike.userId}, '%')</if>
+			<if test="andEq.userId != null">AND user_id = #{andEq.userId}</if>
+			<if test="andLike.userId != null">AND user_id LIKE concat('%', #{andLike.userId}, '%')</if>
+			
+			<if test="orEq.signStatus != null">OR sign_status = #{orEq.signStatus}</if>
+			<if test="orLike.signStatus != null">OR sign_status LIKE concat('%', #{orLike.signStatus}, '%')</if>
+			<if test="andEq.signStatus != null">AND sign_status = #{andEq.signStatus}</if>
+			<if test="andLike.signStatus != null">AND sign_status LIKE concat('%', #{andLike.signStatus}, '%')</if>
+			
+			<if test="orEq.customerNo != null">OR customer_no = #{orEq.customerNo}</if>
+			<if test="orLike.customerNo != null">OR customer_no LIKE concat('%', #{orLike.customerNo}, '%')</if>
+			<if test="andEq.customerNo != null">AND customer_no = #{andEq.customerNo}</if>
+			<if test="andLike.customerNo != null">AND customer_no LIKE concat('%', #{andLike.customerNo}, '%')</if>
+			
+			<if test="orEq.customerName != null">OR customer_name = #{orEq.customerName}</if>
+			<if test="orLike.customerName != null">OR customer_name LIKE concat('%', #{orLike.customerName}, '%')</if>
+			<if test="andEq.customerName != null">AND customer_name = #{andEq.customerName}</if>
+			<if test="andLike.customerName != null">AND customer_name LIKE concat('%', #{andLike.customerName}, '%')</if>
+			
+			<if test="orEq.authorizeStatus != null">OR authorize_status = #{orEq.authorizeStatus}</if>
+			<if test="orLike.authorizeStatus != null">OR authorize_status LIKE concat('%', #{orLike.authorizeStatus}, '%')</if>
+			<if test="andEq.authorizeStatus != null">AND authorize_status = #{andEq.authorizeStatus}</if>
+			<if test="andLike.authorizeStatus != null">AND authorize_status LIKE concat('%', #{andLike.authorizeStatus}, '%')</if>
+			
+			AND null
+		</trim>
+	</select>
+	
+	<insert id="insert_UserAbcInfo" parameterType="com.ii2d.model.UserAbcInfo">
+		INSERT INTO user_abc_info (user_id, sign_status, customer_no, customer_name, authorize_status)
+		VALUES (#{userId}
+			, #{signStatus}
+			, #{customerNo}
+			, #{customerName}
+			, #{authorizeStatus}
+			)
+		
+		<selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+			SELECT LAST_INSERT_ID()
+		</selectKey>
+	</insert>
+
+
+	<update id="update_UserAbcInfo" parameterType="com.ii2d.model.UserAbcInfo">
+		UPDATE user_abc_info SET
+		<trim prefixOverrides=",">
+			
+			<if test="userId != null">, user_id = #{userId}</if>
+			<if test="signStatus != null">, sign_status = #{signStatus}</if>
+			<if test="customerNo != null">, customer_no = #{customerNo}</if>
+			<if test="customerName != null">, customer_name = #{customerName}</if>
+			<if test="authorizeStatus != null">, authorize_status = #{authorizeStatus}</if>
+		</trim>
+		WHERE id = #{id}
+	</update>
+	
+
+	<delete id="delete_UserAbcInfo" >
+	
+		DELETE FROM user_abc_info WHERE id = #{id}
+	
+	</delete>
+
+</mapper>

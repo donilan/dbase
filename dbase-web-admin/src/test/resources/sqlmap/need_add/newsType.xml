@@ -1,0 +1,2 @@
+<mapper resource="sqlmap/newsType.xml"/>
+<mapper resource="sqlmap/ext/newsTypeExt.xml"/>
