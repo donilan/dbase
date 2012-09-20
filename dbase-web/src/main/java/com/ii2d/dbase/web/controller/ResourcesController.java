@@ -44,6 +44,7 @@ public class ResourcesController {
 				LOG.debug("Try to load resource: " + file.toString());
 			}
 			try {
+				response.setHeader("content-type", "text/plain");
 				InputStream in = DResourceUtils.getResourceAsStream(file.toString());
 				IOUtils.copy(in, response.getOutputStream());
 				response.flushBuffer();
