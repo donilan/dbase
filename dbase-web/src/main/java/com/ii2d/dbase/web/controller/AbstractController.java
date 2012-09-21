@@ -24,9 +24,26 @@ public abstract class AbstractController {
 	protected CommonService commonService;
 	
 	@RequestMapping(method = RequestMethod.GET, value = "{id}")
-	public String findMenu(@PathVariable java.lang.Integer id, ModelMap model) {
+	public String find(@PathVariable java.lang.Integer id, ModelMap model) {
 		model.addAttribute(INSTANCE, commonService.queryForById(id, getInstanceClass()));
 		return String.format("admin/%s/show", getControllerName());
+	}
+	
+	@RequestMapping(method = RequestMethod.GET, value = "/editor/{id}")
+	public String editor(@PathVariable(value = "id") int id, ModelMap model) {
+		model.addAttribute(INSTANCE, commonService.queryForById(id, getInstanceClass()));
+		return String.format("admin/%s/editor", getControllerName());
+	}
+	@RequestMapping(method = RequestMethod.GET, value = "/editor")
+	public String editor() {
+		return String.format("admin/%s/editor", getControllerName());
+	}
+	
+	@RequestMapping(method = RequestMethod.DELETE, value = "{id}")
+	public String delete(@PathVariable java.lang.Integer id, ModelMap model) {
+		int count = commonService.delete(id, getInstanceClass());
+		model.addAttribute(count);
+		return String.format("admin/%s/delete", getControllerName());
 	}
 	
 	public abstract Class<?> getInstanceClass();
