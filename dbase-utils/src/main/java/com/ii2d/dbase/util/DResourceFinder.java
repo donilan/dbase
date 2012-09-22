@@ -64,21 +64,24 @@ public class DResourceFinder {
 	public static List<String> findInJar(final String resourcePath,
 			final String[] include, final String[] exclude) throws IOException {
 		List<String> files = new ArrayList<String>();
-		ArchiveInputStream in = DResourceUtils
-				.getResourceAsArchiveInputStream(resourcePath);
-		new DArchiveEntryWalker<String>() {
-
-			@Override
-			protected void handleFile(ArchiveEntry entry,
-					Collection<String> results) {
-				String name = entry.getName();
-				String basePath = resourcePath.substring(DResourceUtils.CLASSPATH_URL_PREFIX.length());
-				if(name.startsWith(basePath)) {
-					if(isThisOneYouWant(FilenameUtils.getName(name), include, exclude))
-						results.add(DResourceUtils.CLASSPATH_URL_PREFIX + name);
+		List<ArchiveInputStream> inputStreams = DResourceUtils
+				.getResourceAsArchiveInputStreams(resourcePath);
+		for(ArchiveInputStream in: inputStreams) {
+			new DArchiveEntryWalker<String>() {
+	
+				@Override
+				protected void handleFile(ArchiveEntry entry,
+						Collection<String> results) {
+					String name = entry.getName();
+					String basePath = resourcePath.substring(DResourceUtils.CLASSPATH_URL_PREFIX.length());
+					if(name.startsWith(basePath)) {
+						if(isThisOneYouWant(FilenameUtils.getName(name), include, exclude))
+							results.add(DResourceUtils.CLASSPATH_URL_PREFIX + name);
+					}
 				}
-			}
-		}.walk(in, files);
+			}.walk(in, files);
+			in.close();
+		}
 		return files;
 	}
 

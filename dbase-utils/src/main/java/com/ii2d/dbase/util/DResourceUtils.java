@@ -92,6 +92,8 @@ public class DResourceUtils {
 			throws IOException {
 		List<URL> urls = new ArrayList<URL>();
 		String tmpResource = _removePrefix(resource, CLASSPATH_URL_PREFIX);
+		if(tmpResource == null) 
+			tmpResource = resource;
 		Enumeration<URL> tmp = cl.getResources(tmpResource);
 		while (tmp.hasMoreElements())
 			urls.add(tmp.nextElement());
@@ -142,7 +144,7 @@ public class DResourceUtils {
 		resource = StringUtils.trimToEmpty(resource);
 		if (resource.startsWith(prefix))
 			return StringUtils.trimToNull(resource.substring(prefix.length()));
-		return resource;
+		return null;
 	}
 
 	/**
@@ -276,6 +278,29 @@ public class DResourceUtils {
 			}
 		}
 		return null;
+	}
+
+	public static List<ArchiveInputStream> getResourceAsArchiveInputStreams(
+			String resource) throws IOException {
+		return getResourceAsArchiveInputStreams(getDefaultClassLoad(), resource);
+	}
+
+	public static List<ArchiveInputStream> getResourceAsArchiveInputStreams(
+			ClassLoader cl, String resource) throws IOException {
+		List<ArchiveInputStream> results = new ArrayList<ArchiveInputStream>();
+		List<URL> urls = getResourceURLs(cl, resource);
+		for (URL url : urls) {
+			if (URL_PROTOCOL_JAR.equals(url.getProtocol())) {
+				String urlStr = url.getPath();
+				if (urlStr.startsWith(FILE_URL_PREFIX)) {
+					String file = urlStr.substring(FILE_URL_PREFIX.length());
+					file = file.substring(0, file.indexOf(JAR_URL_SEPARATOR));
+					results.add(new JarArchiveInputStream(new FileInputStream(
+							file)));
+				}
+			}
+		}
+		return results;
 	}
 
 	/**
