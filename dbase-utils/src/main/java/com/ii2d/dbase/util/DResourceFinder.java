@@ -128,6 +128,7 @@ public class DResourceFinder {
 				if(in.equals(fileName))
 					return true;
 			}
+			return false;
 		}
 		if(exclude != null) {
 			for(String excl: exclude)  {

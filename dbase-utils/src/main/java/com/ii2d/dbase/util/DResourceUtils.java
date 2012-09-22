@@ -8,6 +8,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.compress.archivers.ArchiveInputStream;
@@ -26,10 +29,10 @@ public class DResourceUtils {
 
 	/** Pseudo URL prefix for loading from the class path: "classpath:" */
 	public final static String CLASSPATH_URL_PREFIX = "classpath:";
-	
+
 	/** URL prefix for loading from the file system: "file:" */
 	public final static String FILE_URL_PREFIX = "file:";
-	
+
 	/** URL protocol for a file in the file system: "file" */
 	public static final String URL_PROTOCOL_FILE = "file";
 
@@ -61,6 +64,38 @@ public class DResourceUtils {
 	 */
 	public static URL getResourceURL(String resource) throws IOException {
 		return getResourceURL(getDefaultClassLoad(), resource);
+	}
+
+	/**
+	 * @see #getResourceURLs(ClassLoader, String)
+	 * @author Doni
+	 * @since 2012-9-22
+	 */
+	public static List<URL> getResourceURLs(String resource) throws IOException {
+		return getResourceURLs(getDefaultClassLoad(), resource);
+	}
+
+	/**
+	 * Find all urls for resource path
+	 * 
+	 * @author Doni
+	 * @since 2012-9-22
+	 * @param cl
+	 *            The class loader used to load the resource urls
+	 * @param resource
+	 *            The resource to find
+	 * @return A list that contain urls
+	 * @throws IOException
+	 *             if the resource cannot be found or read
+	 */
+	public static List<URL> getResourceURLs(ClassLoader cl, String resource)
+			throws IOException {
+		List<URL> urls = new ArrayList<URL>();
+		String tmpResource = _removePrefix(resource, CLASSPATH_URL_PREFIX);
+		Enumeration<URL> tmp = cl.getResources(tmpResource);
+		while (tmp.hasMoreElements())
+			urls.add(tmp.nextElement());
+		return urls;
 	}
 
 	/**
@@ -107,7 +142,7 @@ public class DResourceUtils {
 		resource = StringUtils.trimToEmpty(resource);
 		if (resource.startsWith(prefix))
 			return StringUtils.trimToNull(resource.substring(prefix.length()));
-		return null;
+		return resource;
 	}
 
 	/**
@@ -221,19 +256,19 @@ public class DResourceUtils {
 	public static File getResourceAsFile(String resource) throws IOException {
 		return getResourceAsFile(getDefaultClassLoad(), resource);
 	}
-	
+
 	public static ArchiveInputStream getResourceAsArchiveInputStream(
 			String resource) throws IOException {
 		return getResourceAsArchiveInputStream(getDefaultClassLoad(), resource);
 	}
-	
+
 	public static ArchiveInputStream getResourceAsArchiveInputStream(
 			ClassLoader cl, String resource) throws IOException {
 		URL url = getResourceURL(cl, resource);
-		if(url != null) {
-			if(URL_PROTOCOL_JAR.equals(url.getProtocol())) {
+		if (url != null) {
+			if (URL_PROTOCOL_JAR.equals(url.getProtocol())) {
 				String urlStr = url.getPath();
-				if(urlStr.startsWith(FILE_URL_PREFIX)) {
+				if (urlStr.startsWith(FILE_URL_PREFIX)) {
 					String file = urlStr.substring(FILE_URL_PREFIX.length());
 					file = file.substring(0, file.indexOf(JAR_URL_SEPARATOR));
 					return new JarArchiveInputStream(new FileInputStream(file));
@@ -254,5 +289,4 @@ public class DResourceUtils {
 		return DResourceUtils.class.getClassLoader();
 	}
 
-	
 }
