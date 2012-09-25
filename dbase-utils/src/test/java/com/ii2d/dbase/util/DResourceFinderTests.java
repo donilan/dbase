@@ -14,6 +14,7 @@ import junit.framework.TestCase;
 public class DResourceFinderTests extends TestCase {
 
 	public void testFind() throws IOException {
-		System.out.println(DResourceFinder.find("classpath:junit/"));
+		assertTrue(DResourceFinder.find("classpath:junit",
+				new String[] { "Logo.class" }, null).size() > 0);
 	}
 }

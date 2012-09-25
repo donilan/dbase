@@ -290,17 +290,28 @@ public class DResourceUtils {
 		List<ArchiveInputStream> results = new ArrayList<ArchiveInputStream>();
 		List<URL> urls = getResourceURLs(cl, resource);
 		for (URL url : urls) {
-			if (URL_PROTOCOL_JAR.equals(url.getProtocol())) {
-				String urlStr = url.getPath();
-				if (urlStr.startsWith(FILE_URL_PREFIX)) {
-					String file = urlStr.substring(FILE_URL_PREFIX.length());
-					file = file.substring(0, file.indexOf(JAR_URL_SEPARATOR));
-					results.add(new JarArchiveInputStream(new FileInputStream(
-							file)));
-				}
-			}
+			results.add(new JarArchiveInputStream(new FileInputStream(
+					urlToJarFilePath(url))));
 		}
 		return results;
+	}
+	
+	/**
+	 * 把url中的jar路径提取出来
+	 * @author Doni
+	 * @since 2012-9-25
+	 * @param url 
+	 * @return 非合法url返回null
+	 */
+	public static String urlToJarFilePath(URL url) {
+		if (URL_PROTOCOL_JAR.equals(url.getProtocol())) {
+			String urlStr = url.getPath();
+			if (urlStr.startsWith(FILE_URL_PREFIX)) {
+				String file = urlStr.substring(FILE_URL_PREFIX.length());
+				return file.substring(0, file.indexOf(JAR_URL_SEPARATOR));
+			}
+		}
+		return null;
 	}
 
 	/**

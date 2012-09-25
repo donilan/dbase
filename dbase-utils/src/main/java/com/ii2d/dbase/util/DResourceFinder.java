@@ -2,6 +2,7 @@
 package com.ii2d.dbase.util;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -10,6 +11,7 @@ import java.util.List;
 
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.ArchiveInputStream;
+import org.apache.commons.compress.archivers.jar.JarArchiveInputStream;
 import org.apache.commons.io.DirectoryWalker;
 import org.apache.commons.io.FilenameUtils;
 
@@ -43,13 +45,22 @@ public class DResourceFinder {
 	 */
 	public static List<String> find(final String resourcePath, final String[] include,
 			final String[] exclude) throws IOException {
-		URL url = DResourceUtils.getResourceURL(resourcePath);
-		if ("file".equals(url.getProtocol())) {
-			return findInDir(url.getFile(), include, exclude);
-		} else if ("jar".equals(url.getProtocol())) {
-			return findInJar(resourcePath, include, exclude);
+		List<String> results = new ArrayList<String>();
+		List<URL> urls = DResourceUtils.getResourceURLs(resourcePath);
+		for(URL url: urls) {
+			if ("file".equals(url.getProtocol())) {
+				results.addAll(findInDir(url.getFile(), include, exclude));
+			} else if ("jar".equals(url.getProtocol())) {
+				List<String> tmpList = findInJar(DResourceUtils.urlToJarFilePath(url), include, exclude);
+				for(int i = 0; i < tmpList.size(); ++i) {
+					if(!tmpList.get(i).startsWith(resourcePath)) {
+						tmpList.remove(i);
+					}
+				}
+				results.addAll(tmpList);
+			}
 		}
-		return new ArrayList<String>();
+		return results;
 	}
 
 	/**
@@ -61,27 +72,21 @@ public class DResourceFinder {
 	 * @param exclude 排除
 	 * @return 返回带classpath前缀的路径
 	 */
-	public static List<String> findInJar(final String resourcePath,
+	public static List<String> findInJar(final String jarFilePath,
 			final String[] include, final String[] exclude) throws IOException {
 		List<String> files = new ArrayList<String>();
-		List<ArchiveInputStream> inputStreams = DResourceUtils
-				.getResourceAsArchiveInputStreams(resourcePath);
-		for(ArchiveInputStream in: inputStreams) {
-			new DArchiveEntryWalker<String>() {
-	
-				@Override
-				protected void handleFile(ArchiveEntry entry,
-						Collection<String> results) {
-					String name = entry.getName();
-					String basePath = resourcePath.substring(DResourceUtils.CLASSPATH_URL_PREFIX.length());
-					if(name.startsWith(basePath)) {
-						if(isThisOneYouWant(FilenameUtils.getName(name), include, exclude))
-							results.add(DResourceUtils.CLASSPATH_URL_PREFIX + name);
-					}
-				}
-			}.walk(in, files);
-			in.close();
-		}
+		ArchiveInputStream in = new JarArchiveInputStream(new FileInputStream(jarFilePath));
+		new DArchiveEntryWalker<String>() {
+
+			@Override
+			protected void handleFile(ArchiveEntry entry,
+					Collection<String> results) {
+				String name = entry.getName();
+				if(isThisOneYouWant(FilenameUtils.getName(name), include, exclude))
+					results.add(DResourceUtils.CLASSPATH_URL_PREFIX + name);
+			}
+		}.walk(in, files);
+		in.close();
 		return files;
 	}
 
@@ -93,10 +98,15 @@ public class DResourceFinder {
 	 * @param include 包含
 	 * @param exclude 排除
 	 * @return 全路径
+	 * @throws IOException 
 	 */
 	public static List<String> findInDir(final String dir, final String[] include,
-			final String[] exclude) {
+			final String[] exclude) throws IOException {
 		List<String> files = new ArrayList<String>();
+		File file = new File(dir);
+		if(!file.exists()) {
+			throw new IOException("File " + dir + " Not found.");
+		}
 		new DirectoryWalker<String>() {
 			public void run(File startDirectory, Collection<String> results) {
 				try {
@@ -112,7 +122,7 @@ public class DResourceFinder {
 				if(isThisOneYouWant(file.getName(), include, exclude))
 					results.add(file.getAbsolutePath());
 			}
-		}.run(new File(dir), files);
+		}.run(file, files);
 		return files;
 	}
 	

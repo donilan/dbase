@@ -1,10 +1,6 @@
 //~ generate by eclipse
 package com.ii2d.dbase.util;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.Enumeration;
-
 import junit.framework.TestCase;
 
 /**
@@ -16,13 +12,13 @@ import junit.framework.TestCase;
 public class OtherTests extends TestCase {
 
 	public void testGetResource() {
-		try {
-			Enumeration<URL> urls = this.getClass().getClassLoader().getSystemResources("org");
-			while(urls.hasMoreElements()) {
-				URL url = urls.nextElement();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+//		try {
+//			Enumeration<URL> urls = this.getClass() .getClassLoader() .getSystemResources("org");
+//			while(urls.hasMoreElements()) {
+//				URL url = urls.nextElement();
+//			}
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
 	}
 }
