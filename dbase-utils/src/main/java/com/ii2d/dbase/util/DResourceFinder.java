@@ -14,6 +14,8 @@ import org.apache.commons.compress.archivers.ArchiveInputStream;
 import org.apache.commons.compress.archivers.jar.JarArchiveInputStream;
 import org.apache.commons.io.DirectoryWalker;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * @author Doni
@@ -22,6 +24,8 @@ import org.apache.commons.io.FilenameUtils;
  * 
  */
 public class DResourceFinder {
+	
+	private static final Log LOG = LogFactory.getLog(DResourceFinder.class);
 	
 	/**
 	 * 任意资源地址查找文件
@@ -47,17 +51,20 @@ public class DResourceFinder {
 			final String[] exclude) throws IOException {
 		List<String> results = new ArrayList<String>();
 		List<URL> urls = DResourceUtils.getResourceURLs(resourcePath);
+		
 		for(URL url: urls) {
 			if ("file".equals(url.getProtocol())) {
 				results.addAll(findInDir(url.getFile(), include, exclude));
 			} else if ("jar".equals(url.getProtocol())) {
 				List<String> tmpList = findInJar(DResourceUtils.urlToJarFilePath(url), include, exclude);
 				for(int i = 0; i < tmpList.size(); ++i) {
-					if(!tmpList.get(i).startsWith(resourcePath)) {
-						tmpList.remove(i);
+					if(tmpList.get(i).startsWith(resourcePath)) {
+						results.add(tmpList.get(i));
 					}
 				}
-				results.addAll(tmpList);
+				if(LOG.isDebugEnabled()) {
+					LOG.debug(String.format("Find %d file [%s].", results.size(), results));
+				}
 			}
 		}
 		return results;
