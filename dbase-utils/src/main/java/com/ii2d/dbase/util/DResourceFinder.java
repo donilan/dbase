@@ -8,7 +8,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.ArchiveInputStream;
@@ -135,30 +134,12 @@ public class DResourceFinder {
 	}
 	
 	/**
-	 * 查看这个文件是不是想要的文件
+	 * 
 	 * @author Doni
-	 * @since 2012-9-22
-	 * @param fileName 文件名
-	 * @param include 包含
-	 * @param exclude 排除
-	 * @return
+	 * @since 2012-9-28
+	 * @see {@link DFilterUtils#isThisOneYouWant(String, String[], String[])}
 	 */
 	public static boolean isThisOneYouWant(String fileName, String[] include, String[] exclude) {
-		if(include != null) {
-			for(String in: include) {
-				Pattern p = Pattern.compile(in);
-				if(p.matcher(fileName).matches())
-					return true;
-			}
-			return false;
-		}
-		if(exclude != null) {
-			for(String excl: exclude)  {
-				Pattern p = Pattern.compile(excl);
-				if(p.matcher(fileName).matches())
-					return false;
-			}
-		}
-		return true;
+		return DFilterUtils.isThisOneYouWant(fileName, include, exclude);
 	}
 }
