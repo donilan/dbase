@@ -17,7 +17,7 @@ public class DStringUtils {
 	 * @author Doni
 	 * @since 2012-9-24
 	 */
-	public static final String replaceAll(String target, Map<Object, Object> replaces) {
+	public static final String replaceAll(String target, Map replaces) {
 		Assert.hasLength(target);
 		Assert.notNull(replaces);
 		Iterator<Map.Entry<Object, Object>> it = replaces.entrySet().iterator();

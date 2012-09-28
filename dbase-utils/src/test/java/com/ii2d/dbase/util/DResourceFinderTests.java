@@ -15,6 +15,6 @@ public class DResourceFinderTests extends TestCase {
 
 	public void testFind() throws IOException {
 		assertTrue(DResourceFinder.find("classpath:junit",
-				new String[] { "Logo.class" }, null).size() > 0);
+				new String[] { "Logo.*" }, null).size() > 0);
 	}
 }

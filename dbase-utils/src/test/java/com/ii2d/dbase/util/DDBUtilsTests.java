@@ -20,7 +20,6 @@ public class DDBUtilsTests extends TestCase {
 	public void testGetColumns() throws SQLException {
 		BasicDataSource ds = new BasicDataSource();
 		ds.setUsername("root");
-		ds.setPassword("sa");
 		ds.setDriverClassName("com.mysql.jdbc.Driver");
 		ds.setUrl("jdbc:mysql://127.0.0.1:3306/hnwnew");
 		Map<String, Object> map = new HashMap<String, Object>();

@@ -8,6 +8,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import org.apache.commons.compress.archivers.ArchiveEntry;
 import org.apache.commons.compress.archivers.ArchiveInputStream;
@@ -145,14 +146,16 @@ public class DResourceFinder {
 	public static boolean isThisOneYouWant(String fileName, String[] include, String[] exclude) {
 		if(include != null) {
 			for(String in: include) {
-				if(in.equals(fileName))
+				Pattern p = Pattern.compile(in);
+				if(p.matcher(fileName).matches())
 					return true;
 			}
 			return false;
 		}
 		if(exclude != null) {
 			for(String excl: exclude)  {
-				if(excl.equals(fileName))
+				Pattern p = Pattern.compile(excl);
+				if(p.matcher(fileName).matches())
 					return false;
 			}
 		}
