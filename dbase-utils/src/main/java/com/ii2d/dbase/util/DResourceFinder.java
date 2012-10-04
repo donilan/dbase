@@ -36,7 +36,20 @@ public class DResourceFinder {
 	public static List<String> find(String resourcePath) throws IOException {
 		return find(resourcePath, null, null);
 	}
-
+	
+	/**
+	 * @see #find(ClassLoader, String, String[], String[])
+	 */
+	public static List<String> find(ClassLoader cl, String resourcePath) throws IOException {
+		return find(cl, resourcePath, null, null);
+	}
+	/**
+	 * @see #find(ClassLoader, String, String[], String[])
+	 */
+	public static List<String> find(final String resourcePath, final String[] include,
+			final String[] exclude) throws IOException {
+		return find(DResourceUtils.getDefaultClassLoad(), resourcePath, include, exclude);
+	}
 	/**
 	 * 任意资源地址查找文件
 	 * @author Doni
@@ -47,10 +60,10 @@ public class DResourceFinder {
 	 * @see #findInDir(String, String[], String[])
 	 * @see #findInJar(String, String[], String[])
 	 */
-	public static List<String> find(final String resourcePath, final String[] include,
+	public static List<String> find(ClassLoader cl, final String resourcePath, final String[] include,
 			final String[] exclude) throws IOException {
 		List<String> results = new ArrayList<String>();
-		List<URL> urls = DResourceUtils.getResourceURLs(resourcePath);
+		List<URL> urls = DResourceUtils.getResourceURLs(cl, resourcePath);
 		
 		for(URL url: urls) {
 			if ("file".equals(url.getProtocol())) {

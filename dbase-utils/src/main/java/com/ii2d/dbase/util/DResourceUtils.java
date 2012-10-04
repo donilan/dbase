@@ -321,7 +321,7 @@ public class DResourceUtils {
 	 * @since 2012-9-10
 	 * @return
 	 */
-	private static ClassLoader getDefaultClassLoad() {
+	public static ClassLoader getDefaultClassLoad() {
 		return DResourceUtils.class.getClassLoader();
 	}
 
