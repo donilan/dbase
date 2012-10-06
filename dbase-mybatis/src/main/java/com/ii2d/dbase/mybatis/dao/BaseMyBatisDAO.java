@@ -2,6 +2,7 @@ package com.ii2d.dbase.mybatis.dao;
 
 import java.util.List;
 
+import com.ii2d.dbase.mybatis.Page;
 import com.ii2d.dbase.mybatis.model.BaseMyBatisModel;
 
 /**
@@ -47,12 +48,12 @@ public interface BaseMyBatisDAO {
 	<T> List<T> queryForList(BaseMyBatisModel o);
 	
 	/**
-	 * @see #queryForList(String, Object, int, int)
+	 *
 	 * @author Doni
 	 * @since 2012-9-9
 	 * @return
 	 */
-	<T> List<T> queryForList(BaseMyBatisModel o, int page, int rows);
+	Page queryForPage(BaseMyBatisModel o, int page, int rows);
 	
 	/**
 	 * 

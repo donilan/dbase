@@ -4,6 +4,7 @@ package com.ii2d.dbase.commons.service.impl;
 import java.util.List;
 
 import com.ii2d.dbase.commons.service.CommonService;
+import com.ii2d.dbase.mybatis.Page;
 import com.ii2d.dbase.mybatis.dao.impl.CommonMyBatisDAO;
 import com.ii2d.dbase.mybatis.model.BaseMyBatisModel;
 
@@ -33,8 +34,8 @@ public class MyBatisCommonServiceImpl implements CommonService {
 		return commonMyBatiesDAO.queryForList(o);
 	}
 
-	public <T> List<T> queryForList(BaseMyBatisModel o, int page, int rows) {
-		return commonMyBatiesDAO.queryForList(o, page, rows);
+	public Page queryForPage(BaseMyBatisModel o, int page, int rows) {
+		return commonMyBatiesDAO.queryForPage(o, page, rows);
 	}
 
 	public <T> T queryForById(Object id, Class<?> clazz) {

@@ -3,6 +3,7 @@ package com.ii2d.dbase.commons.service;
 
 import java.util.List;
 
+import com.ii2d.dbase.mybatis.Page;
 import com.ii2d.dbase.mybatis.model.BaseMyBatisModel;
 
 /**
@@ -21,7 +22,7 @@ public interface CommonService {
 
 	<T> List<T> queryForList(BaseMyBatisModel o);
 
-	<T> List<T> queryForList(BaseMyBatisModel o, int page, int rows);
+	Page queryForPage(BaseMyBatisModel o, int page, int rows);
 
 	<T> T queryForById(Object id, Class<?> clazz);
 

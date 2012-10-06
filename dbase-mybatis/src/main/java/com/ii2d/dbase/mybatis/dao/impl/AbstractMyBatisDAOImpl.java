@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.util.Assert;
 
+import com.ii2d.dbase.mybatis.Page;
 import com.ii2d.dbase.mybatis.dao.BaseMyBatisDAO;
 import com.ii2d.dbase.mybatis.model.BaseMyBatisModel;
 
@@ -51,7 +52,7 @@ public abstract class AbstractMyBatisDAOImpl implements BaseMyBatisDAO {
 	}
 
 	@Override
-	public <T> List<T> queryForList(BaseMyBatisModel o, int page, int rows) {
+	public Page queryForPage(BaseMyBatisModel o, int page, int rows) {
 		Assert.notNull(o);
 		if (page < 1)
 			page = 1;
@@ -59,7 +60,12 @@ public abstract class AbstractMyBatisDAOImpl implements BaseMyBatisDAO {
 			rows = 10;
 		o.limitStartRow((page-1)*rows);
 		o.limitEndRow(page*rows);
-		return queryForList(_getSqlMapId(METHOD_SELECT, o), o, page, rows);
+		Page p = new Page();
+		p.setCurrentPage(page);
+		p.setCount(this.count(o));
+		p.setRows(rows);
+		p.setData(queryForList(_getSqlMapId(METHOD_SELECT, o), o, page, rows));
+		return p;
 	}
 
 	@SuppressWarnings("unchecked")
