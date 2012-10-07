@@ -38,6 +38,7 @@ public abstract class AbstractMyBatisDAOImpl implements BaseMyBatisDAO {
 		return sqlSession.update(_getSqlMapId(METHOD_UPDATE, o), o);
 	}
 
+	@SuppressWarnings("rawtypes")
 	@Override
 	public int delete(Object id, Class clazz) {
 		Assert.notNull(clazz);
@@ -88,7 +89,6 @@ public abstract class AbstractMyBatisDAOImpl implements BaseMyBatisDAO {
 				_getSqlMapId(METHOD_SELECT, o.getClass()), o);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public <T> List<T> queryForList(String sqlMapId, Object o, int page,
 			int rows) {

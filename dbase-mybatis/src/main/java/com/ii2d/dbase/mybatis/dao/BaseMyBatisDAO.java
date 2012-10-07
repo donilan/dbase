@@ -24,6 +24,7 @@ public interface BaseMyBatisDAO {
 	 */
 	int update(BaseMyBatisModel o);
 	
+	@SuppressWarnings("rawtypes")
 	int delete(Object id, Class clazz);
 	
 	/**
