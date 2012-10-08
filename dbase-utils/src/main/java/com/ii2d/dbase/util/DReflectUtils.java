@@ -57,6 +57,7 @@ public class DReflectUtils {
 	 * @param fieldName 常量属性名称
 	 * @return 常量值
 	 */
+	@SuppressWarnings("unchecked")
 	public static <T> T getFinalFieldValue(Class<?> clazz, String fieldName) throws SecurityException, NoSuchFieldException, IllegalArgumentException, IllegalAccessException {
 		Assert.notNull(clazz);
 		Assert.hasText(fieldName);

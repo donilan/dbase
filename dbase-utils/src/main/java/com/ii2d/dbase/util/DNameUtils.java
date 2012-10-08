@@ -52,6 +52,7 @@ public class DNameUtils {
 	 *            To be found
 	 * @return A map that contains some replace strings
 	 */
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public static Map<String, String> toReplaceMap(Map map) {
 		Map<String, String> result = new HashMap<String, String>();
 		Iterator<Map.Entry> it = map.entrySet().iterator();

@@ -26,6 +26,7 @@ public class MyBatisCommonServiceImpl implements CommonService {
 		return commonMyBatiesDAO.update(o);
 	}
 
+	@SuppressWarnings("rawtypes")
 	public int delete(Object id, Class clazz) {
 		return commonMyBatiesDAO.delete(id, clazz);
 	}

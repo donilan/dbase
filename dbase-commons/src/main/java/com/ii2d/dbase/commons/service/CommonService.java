@@ -18,6 +18,7 @@ public interface CommonService {
 
 	int update(BaseMyBatisModel o);
 
+	@SuppressWarnings("rawtypes")
 	int delete(Object id, Class clazz);
 
 	<T> List<T> queryForList(BaseMyBatisModel o);
