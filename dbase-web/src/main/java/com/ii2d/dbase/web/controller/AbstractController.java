@@ -30,14 +30,14 @@ public abstract class AbstractController {
 		return String.format("admin/%s/show", getControllerName());
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/editor/{id}")
-	public String editor(@PathVariable(value = "id") int id, ModelMap model) {
+	@RequestMapping(method = RequestMethod.GET, value = "/edit/{id}")
+	public String edit(@PathVariable(value = "id") int id, ModelMap model) {
 		model.addAttribute(INSTANCE, commonService.queryForById(id, getInstanceClass()));
-		return String.format("admin/%s/editor", getControllerName());
+		return String.format("admin/%s/edit", getControllerName());
 	}
-	@RequestMapping(method = RequestMethod.GET, value = "/editor")
-	public String editor() {
-		return String.format("admin/%s/editor", getControllerName());
+	@RequestMapping(method = RequestMethod.GET, value = "/create")
+	public String create() {
+		return String.format("admin/%s/create", getControllerName());
 	}
 	
 	@RequestMapping(method = RequestMethod.DELETE, value = "{id}")
