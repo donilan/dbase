@@ -59,7 +59,7 @@ public abstract class AbstractMyBatisDAOImpl implements BaseMyBatisDAO {
 		if (rows < 1)
 			rows = 10;
 		o.limitStartRow((page-1)*rows);
-		o.limitEndRow(page*rows);
+		o.limitEndRow(rows);
 		Page p = new Page();
 		p.setCurrentPage(page);
 		p.setCount(this.count(o));
