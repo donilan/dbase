@@ -23,6 +23,8 @@ public class BaseMyBatisModel implements Serializable {
 	protected Map<String, Object> orLike = new HashMap<String, Object>();
 	protected Map<String, Object> andEq = new HashMap<String, Object>();
 	protected Map<String, Object> andLike = new HashMap<String, Object>();
+	protected Map<String, Object> orBetween = new HashMap<String, Object>();
+	protected Map<String, Object> andBetween = new HashMap<String, Object>();
 	protected int limitStartRow;
 	protected int limitEndRow;
 	protected List<String> orderBy = new ArrayList<String>();
@@ -120,4 +122,23 @@ public class BaseMyBatisModel implements Serializable {
 		return limitEndRow;
 	}
 
+	public Map<String, Object> getOrBetween() {
+		return orBetween;
+	}
+
+
+	public void setOrBetween(Map<String, Object> orBetween) {
+		this.orBetween = orBetween;
+	}
+
+
+	public Map<String, Object> getAndBetween() {
+		return andBetween;
+	}
+
+
+	public void setAndBetween(Map<String, Object> andBetween) {
+		this.andBetween = andBetween;
+	}
+	
 }

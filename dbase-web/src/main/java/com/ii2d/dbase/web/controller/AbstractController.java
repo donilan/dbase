@@ -7,7 +7,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ii2d.dbase.commons.service.CommonService;
 
@@ -36,15 +36,16 @@ public abstract class AbstractController {
 		return String.format("admin/%s/edit", getControllerName());
 	}
 	@RequestMapping(method = RequestMethod.GET, value = "/create")
-	public String create() {
+	public String create(ModelMap model) throws InstantiationException, IllegalAccessException {
+		model.addAttribute(INSTANCE, getInstanceClass().newInstance());
 		return String.format("admin/%s/create", getControllerName());
 	}
 	
-	@RequestMapping(method = RequestMethod.DELETE, value = "{id}")
-	public String delete(@PathVariable java.lang.Integer id, ModelMap model) {
+	@RequestMapping(method = RequestMethod.DELETE, value = "/delete/{id}")
+	public @ResponseBody String delete(@PathVariable java.lang.Integer id, ModelMap model) {
 		int count = commonService.delete(id, getInstanceClass());
 		model.addAttribute(count);
-		return String.format("admin/%s/delete", getControllerName());
+		return "success";
 	}
 	
 	public abstract Class<?> getInstanceClass();
