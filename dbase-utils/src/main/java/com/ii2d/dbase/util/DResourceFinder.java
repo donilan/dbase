@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -92,10 +93,11 @@ public class DResourceFinder {
 	 * @param exclude 排除
 	 * @return 返回带classpath前缀的路径
 	 */
+	@SuppressWarnings("deprecation")
 	public static List<String> findInJar(final String jarFilePath,
 			final String[] include, final String[] exclude) throws IOException {
 		List<String> files = new ArrayList<String>();
-		ArchiveInputStream in = new JarArchiveInputStream(new FileInputStream(jarFilePath));
+		ArchiveInputStream in = new JarArchiveInputStream(new FileInputStream(URLDecoder.decode(jarFilePath)));
 		new DArchiveEntryWalker<String>() {
 
 			@Override
