@@ -35,6 +35,7 @@ public class DDBUtils {
 	public static final String KEY_URL = "DB_URL";
 	
 	public static final Map<Integer, String> TYPES = new HashMap<Integer, String>();
+	public static final Map<String, String> DB_TYPE_MAP = new HashMap<String, String>();
 	
 	static {
 		List<String> names = DReflectUtils.getFinalNames(Types.class);
@@ -45,6 +46,10 @@ public class DDBUtils {
 				e.printStackTrace();
 			}
 		}
+		
+		DB_TYPE_MAP.put("java.math.BigDecimal", "java.lang.Long");
+		DB_TYPE_MAP.put("oracle.sql.TIMESTAMP", "java.util.Date");
+		DB_TYPE_MAP.put("java.sql.Timestamp", "java.util.Date");
 	}
 	
 	public static Connection getConnection(DataSource ds) throws SQLException {
