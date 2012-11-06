@@ -46,6 +46,10 @@ public class MyBatisCommonServiceImpl implements CommonService {
 	public Long count(BaseMyBatisModel o) {
 		return commonMyBatiesDAO.count(o);
 	}
+	
+	public <T> T queryOne(String sqlMapId, Object searchObj) {
+		return commonMyBatiesDAO.queryOne(sqlMapId, searchObj);
+	}
 
 	public <T> List<T> queryForList(String sqlMapId, Object o) {
 		return commonMyBatiesDAO.queryForList(sqlMapId, o);

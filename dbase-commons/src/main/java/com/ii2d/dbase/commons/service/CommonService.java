@@ -29,6 +29,8 @@ public interface CommonService {
 
 	Long count(BaseMyBatisModel o);
 
+	<T> T queryOne(String sqlMapId, Object searchObj);
+	
 	<T> List<T> queryForList(String sqlMapId, Object o);
 
 	<T> List<T> queryForList(String sqlMapId, Object o, int page, int rows);

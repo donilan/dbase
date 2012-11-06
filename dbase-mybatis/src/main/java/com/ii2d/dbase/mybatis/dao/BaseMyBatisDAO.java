@@ -56,6 +56,8 @@ public interface BaseMyBatisDAO {
 	 */
 	Page queryForPage(BaseMyBatisModel o, int page, int rows);
 	
+	
+	<T> T queryOne(String sqlMapId, Object searchObj);
 	/**
 	 * 
 	 * @author Doni

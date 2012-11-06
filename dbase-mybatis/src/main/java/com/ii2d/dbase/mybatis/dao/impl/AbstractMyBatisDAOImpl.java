@@ -80,6 +80,14 @@ public abstract class AbstractMyBatisDAOImpl implements BaseMyBatisDAO {
 	public Long count(BaseMyBatisModel o) {
 		return (Long) sqlSession.selectOne(_getSqlMapId(METHOD_COUNT, o), o);
 	}
+	
+	@Override
+	public <T> T queryOne(String sqlMapId, Object searchObj) {
+		List<T> list = queryForList(sqlMapId, searchObj, 1, 1);
+		if(list != null && list.size() > 0)
+			return list.get(0);
+		return null;
+	}
 
 	@SuppressWarnings("unchecked")
 	@Override
