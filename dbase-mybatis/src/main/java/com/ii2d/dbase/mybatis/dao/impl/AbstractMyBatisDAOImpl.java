@@ -29,7 +29,7 @@ public abstract class AbstractMyBatisDAOImpl implements BaseMyBatisDAO {
 
 	@Override
 	public int insert(BaseMyBatisModel o) {
-		return (Integer)sqlSession.insert(_getSqlMapId(METHOD_INSERT, o), o);
+		return (Integer) sqlSession.insert(_getSqlMapId(METHOD_INSERT, o), o);
 	}
 
 	@Override
@@ -59,7 +59,7 @@ public abstract class AbstractMyBatisDAOImpl implements BaseMyBatisDAO {
 			page = 1;
 		if (rows < 1)
 			rows = 10;
-		o.limitStartRow((page-1)*rows);
+		o.limitStartRow((page - 1) * rows);
 		o.limitEndRow(rows);
 		Page p = new Page();
 		p.setCurrentPage(page);
@@ -85,8 +85,7 @@ public abstract class AbstractMyBatisDAOImpl implements BaseMyBatisDAO {
 	@Override
 	public <T> List<T> queryForList(String sqlMapId, Object o) {
 		Assert.notNull(o);
-		return (List<T>) sqlSession.selectList(
-				_getSqlMapId(METHOD_SELECT, o.getClass()), o);
+		return (List<T>) sqlSession.selectList(sqlMapId, o);
 	}
 
 	@Override
@@ -97,9 +96,8 @@ public abstract class AbstractMyBatisDAOImpl implements BaseMyBatisDAO {
 			page = 1;
 		if (rows < 1)
 			rows = 10;
-		
-		return sqlSession.selectList(_getSqlMapId(METHOD_SELECT, o.getClass()),
-				o);
+
+		return sqlSession.selectList(sqlMapId, o);
 	}
 
 	public SqlSession getSqlSession() {
