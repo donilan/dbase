@@ -1,6 +1,7 @@
 //~ generate by eclipse
 package com.ii2d.dbase.commons.service;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.ii2d.dbase.mybatis.Page;
@@ -40,4 +41,6 @@ public interface CommonService {
 	int update(String sqlMapId, Object updateObj);
 	
 	int insert(String sqlMapId, Object insertObj);
+	
+	int insert(Collection<BaseMyBatisModel> objects);
 }

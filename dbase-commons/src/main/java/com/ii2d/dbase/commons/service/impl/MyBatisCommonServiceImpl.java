@@ -1,6 +1,7 @@
 //~ generate by eclipse
 package com.ii2d.dbase.commons.service.impl;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.ii2d.dbase.commons.service.CommonService;
@@ -78,6 +79,13 @@ public class MyBatisCommonServiceImpl implements CommonService {
 
 	public Long query2Long(String sqlMapId, Object searchObj) {
 		return commonMyBatiesDAO.query2Long(sqlMapId, searchObj);
+	}
+
+	@Override
+	public int insert(Collection<BaseMyBatisModel> objects) {
+		for(BaseMyBatisModel o: objects)
+			commonMyBatiesDAO.insert(o);
+		return objects.size();
 	}
 	
 }
