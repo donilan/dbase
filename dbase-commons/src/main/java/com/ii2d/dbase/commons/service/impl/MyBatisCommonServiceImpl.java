@@ -82,7 +82,7 @@ public class MyBatisCommonServiceImpl implements CommonService {
 	}
 
 	@Override
-	public int insert(Collection<BaseMyBatisModel> objects) {
+	public int insert(Collection<? extends BaseMyBatisModel> objects) {
 		for(BaseMyBatisModel o: objects)
 			commonMyBatiesDAO.insert(o);
 		return objects.size();

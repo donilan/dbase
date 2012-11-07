@@ -42,5 +42,5 @@ public interface CommonService {
 	
 	int insert(String sqlMapId, Object insertObj);
 	
-	int insert(Collection<BaseMyBatisModel> objects);
+	int insert(Collection<? extends BaseMyBatisModel> objects);
 }
