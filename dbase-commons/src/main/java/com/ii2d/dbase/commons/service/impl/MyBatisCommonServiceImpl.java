@@ -67,4 +67,17 @@ public class MyBatisCommonServiceImpl implements CommonService {
 	public void setCommonMyBatiesDAO(CommonMyBatisDAO commonMyBatiesDAO) {
 		this.commonMyBatiesDAO = commonMyBatiesDAO;
 	}
+
+	public int insert(String sqlMapId, Object insertObj) {
+		return commonMyBatiesDAO.insert(sqlMapId, insertObj);
+	}
+
+	public int update(String sqlMapId, Object updateObj) {
+		return commonMyBatiesDAO.update(sqlMapId, updateObj);
+	}
+
+	public Long query2Long(String sqlMapId, Object searchObj) {
+		return commonMyBatiesDAO.query2Long(sqlMapId, searchObj);
+	}
+	
 }

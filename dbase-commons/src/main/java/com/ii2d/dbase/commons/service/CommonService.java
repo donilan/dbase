@@ -35,4 +35,9 @@ public interface CommonService {
 
 	<T> List<T> queryForList(String sqlMapId, Object o, int page, int rows);
 
+	Long query2Long(String sqlMapId, Object searchObj);
+	
+	int update(String sqlMapId, Object updateObj);
+	
+	int insert(String sqlMapId, Object insertObj);
 }

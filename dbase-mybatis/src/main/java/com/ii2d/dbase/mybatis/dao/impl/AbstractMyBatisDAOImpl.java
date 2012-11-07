@@ -29,13 +29,12 @@ public abstract class AbstractMyBatisDAOImpl implements BaseMyBatisDAO {
 
 	@Override
 	public int insert(BaseMyBatisModel o) {
-		return (Integer) sqlSession.insert(_getSqlMapId(METHOD_INSERT, o), o);
+		return insert(_getSqlMapId(METHOD_INSERT, o), o);
 	}
 
 	@Override
 	public int update(BaseMyBatisModel o) {
-		Assert.notNull(o);
-		return sqlSession.update(_getSqlMapId(METHOD_UPDATE, o), o);
+		return update(_getSqlMapId(METHOD_UPDATE, o), o);
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -78,7 +77,7 @@ public abstract class AbstractMyBatisDAOImpl implements BaseMyBatisDAO {
 
 	@Override
 	public Long count(BaseMyBatisModel o) {
-		return (Long) sqlSession.selectOne(_getSqlMapId(METHOD_COUNT, o), o);
+		return query2Long(_getSqlMapId(METHOD_COUNT, o), o);
 	}
 	
 	@Override
@@ -140,4 +139,22 @@ public abstract class AbstractMyBatisDAOImpl implements BaseMyBatisDAO {
 					"Param clazz cann't be null or equals Object class.");
 		return String.format("%s_%s", method, clazz.getSimpleName());
 	}
+
+	@Override
+	public int insert(String sqlMapId, Object insertObj) {
+		return (Integer) sqlSession.insert(sqlMapId, insertObj);
+	}
+
+	@Override
+	public int update(String sqlMapId, Object updateObj) {
+		Assert.notNull(updateObj);
+		return sqlSession.update(sqlMapId, updateObj);
+	}
+
+	@Override
+	public Long query2Long(String sqlMapId, Object searchObj) {
+		return (Long) sqlSession.selectOne(sqlMapId, searchObj);
+	}
+	
+	
 }

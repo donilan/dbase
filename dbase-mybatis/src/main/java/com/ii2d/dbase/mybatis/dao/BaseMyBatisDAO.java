@@ -19,10 +19,14 @@ public interface BaseMyBatisDAO {
 	 */
 	int insert(BaseMyBatisModel o);
 	
+	int insert(String sqlMapId, Object insertObj);
+	
 	/**
 	 * update an object
 	 */
 	int update(BaseMyBatisModel o);
+	
+	int update(String sqlMapId, Object updateObj);
 	
 	@SuppressWarnings("rawtypes")
 	int delete(Object id, Class clazz);
@@ -40,6 +44,8 @@ public interface BaseMyBatisDAO {
 	 * @since 2012-9-9
 	 */
 	Long count(BaseMyBatisModel o);
+	
+	Long query2Long(String sqlMapId, Object searchObj);
 	
 	/**
 	 * @see #queryForList(String, Object)
