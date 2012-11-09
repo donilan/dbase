@@ -1,11 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+
 	<settings>
 		<setting name="cacheEnabled" value="false" />
 		<setting name="lazyLoadingEnabled" value="false" />
 	</settings>
+	<plugins>
+		<plugin interceptor="com.ii2d.dbase.mybatis.PaginationInterceptor">
+			<property name="dialectClass" value="com.ii2d.dbase.mybatis.dialect.db.MySQLDialect"/>
+			<property name="pattern" value="list.*"/>
+		</plugin>
+	</plugins>
 	<mappers>
-		<mapper resource="User.xml"/>
+		<mapper resource="User.xml" />
 	</mappers>
 </configuration>

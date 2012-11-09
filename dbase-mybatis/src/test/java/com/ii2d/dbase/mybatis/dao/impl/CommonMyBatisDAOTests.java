@@ -28,7 +28,7 @@ public class CommonMyBatisDAOTests extends TestCase {
 		assertEquals("select_String", dao._getSqlMapId(CommonMyBatisDAO.METHOD_SELECT, "".getClass()));
 	}
 	
-	public void testQuery() {
+	public void testInsert() {
 		
 		CommonMyBatisDAO dao = (CommonMyBatisDAO)ac.getBean("commonDao");
 		User u = new User();
@@ -44,4 +44,5 @@ public class CommonMyBatisDAOTests extends TestCase {
 		} catch (Exception e) {
 		}
 	}
+	
 }

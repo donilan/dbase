@@ -81,11 +81,7 @@ public class MyBatisCommonServiceImpl implements CommonService {
 		return commonMyBatiesDAO.query2Long(sqlMapId, searchObj);
 	}
 
-	@Override
 	public int insert(Collection<? extends BaseMyBatisModel> objects) {
-		for(BaseMyBatisModel o: objects)
-			commonMyBatiesDAO.insert(o);
-		return objects.size();
+		return commonMyBatiesDAO.insert(objects);
 	}
-	
 }

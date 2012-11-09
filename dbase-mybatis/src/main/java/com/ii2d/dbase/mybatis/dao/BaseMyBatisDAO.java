@@ -1,5 +1,6 @@
 package com.ii2d.dbase.mybatis.dao;
 
+import java.util.Collection;
 import java.util.List;
 
 import com.ii2d.dbase.mybatis.Page;
@@ -21,6 +22,8 @@ public interface BaseMyBatisDAO {
 	
 	int insert(String sqlMapId, Object insertObj);
 	
+	int insert(Collection<? extends BaseMyBatisModel> objs);
+	
 	/**
 	 * update an object
 	 */
@@ -28,8 +31,7 @@ public interface BaseMyBatisDAO {
 	
 	int update(String sqlMapId, Object updateObj);
 	
-	@SuppressWarnings("rawtypes")
-	int delete(Object id, Class clazz);
+	int delete(Object id, Class<?> clazz);
 	
 	/**
 	 * query an object by id
@@ -83,6 +85,5 @@ public interface BaseMyBatisDAO {
 	 * @return
 	 */
 	<T> List<T> queryForList(String sqlMapId, Object o, int page, int rows);
-
 	
 }

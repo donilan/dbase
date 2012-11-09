@@ -1,5 +1,6 @@
 package com.ii2d.dbase.mybatis.dao.impl;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -36,7 +37,16 @@ public abstract class AbstractMyBatisDAOImpl implements BaseMyBatisDAO {
 	public int update(BaseMyBatisModel o) {
 		return update(_getSqlMapId(METHOD_UPDATE, o), o);
 	}
-
+	
+	@Override
+	public int insert(Collection<? extends BaseMyBatisModel> objs) {
+		if(objs == null || objs.isEmpty())
+			return 0;
+		for(BaseMyBatisModel o: objs)
+			insert(o);
+		return objs.size();
+	}
+	
 	@SuppressWarnings("rawtypes")
 	@Override
 	public int delete(Object id, Class clazz) {
@@ -155,6 +165,6 @@ public abstract class AbstractMyBatisDAOImpl implements BaseMyBatisDAO {
 	public Long query2Long(String sqlMapId, Object searchObj) {
 		return (Long) sqlSession.selectOne(sqlMapId, searchObj);
 	}
-	
-	
+
+
 }
