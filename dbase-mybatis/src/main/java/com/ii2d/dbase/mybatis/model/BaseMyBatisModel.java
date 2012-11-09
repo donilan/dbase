@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.session.RowBounds;
 
 /**
  * @author Doni
@@ -25,10 +26,18 @@ public class BaseMyBatisModel implements Serializable {
 	protected Map<String, Object> andLike = new HashMap<String, Object>();
 	protected Map<String, Object> orBetween = new HashMap<String, Object>();
 	protected Map<String, Object> andBetween = new HashMap<String, Object>();
-	protected int limitStartRow;
-	protected int limitEndRow;
+	protected int page;
+	protected int rows;
 	protected List<String> orderBy = new ArrayList<String>();
 	protected boolean asc = true;
+	
+	public RowBounds getRowBounds() {
+		if(page < 1)
+			page = 1;
+		if(rows < 1)
+			rows = RowBounds.NO_ROW_LIMIT;
+		return new RowBounds((page-1)* rows, rows);
+	}
 	
 	public BaseMyBatisModel orEq(String prop, Object val) {
 		if(val != null) {
@@ -76,14 +85,7 @@ public class BaseMyBatisModel implements Serializable {
 		this.orderBy = orderBy;
 		return this;
 	}
-	public BaseMyBatisModel limitStartRow(int limitStartRow) {
-		this.limitStartRow = limitStartRow;
-		return this;
-	}
-	public BaseMyBatisModel limitEndRow(int limitEndRow) {
-		this.limitEndRow = limitEndRow;
-		return this;
-	}
+
 	public BaseMyBatisModel asc(boolean asc) {
 		this.asc = asc;
 		return this;
@@ -113,15 +115,6 @@ public class BaseMyBatisModel implements Serializable {
 		return orderBy;
 	}
 
-
-	public int getLimitStartRow() {
-		return limitStartRow;
-	}
-
-	public int getLimitEndRow() {
-		return limitEndRow;
-	}
-
 	public Map<String, Object> getOrBetween() {
 		return orBetween;
 	}
@@ -136,9 +129,24 @@ public class BaseMyBatisModel implements Serializable {
 		return andBetween;
 	}
 
-
 	public void setAndBetween(Map<String, Object> andBetween) {
 		this.andBetween = andBetween;
+	}
+
+	public int getPage() {
+		return page;
+	}
+
+	public void setPage(int page) {
+		this.page = page;
+	}
+
+	public int getRows() {
+		return rows;
+	}
+
+	public void setRows(int rows) {
+		this.rows = rows;
 	}
 	
 }

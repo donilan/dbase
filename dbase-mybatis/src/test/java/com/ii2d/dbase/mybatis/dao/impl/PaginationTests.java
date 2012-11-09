@@ -2,12 +2,15 @@
 package com.ii2d.dbase.mybatis.dao.impl;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import org.apache.log4j.BasicConfigurator;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+import com.ii2d.dbase.mybatis.model.User;
 
 /**
  * @author Doni
@@ -32,7 +35,11 @@ public class PaginationTests{
 
 	@Test
 	public void testQuery2(){
-		dao.sqlSession.selectList("list_User");
+		User u = new User();
+		u.setPage(2);
+		u.setRows(2);
+		List l = dao.queryForList(u);
+		System.out.println(l);
 	}
 	
 	

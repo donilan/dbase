@@ -62,7 +62,7 @@ public interface BaseMyBatisDAO {
 	 * @since 2012-9-9
 	 * @return
 	 */
-	Page queryForPage(BaseMyBatisModel o, int page, int rows);
+	<T> Page<T> queryForPage(BaseMyBatisModel o, int page, int rows);
 	
 	
 	<T> T queryOne(String sqlMapId, Object searchObj);
@@ -84,6 +84,6 @@ public interface BaseMyBatisDAO {
 	 * @param rows - rows of per page
 	 * @return
 	 */
-	<T> List<T> queryForList(String sqlMapId, Object o, int page, int rows);
+	<T> Page<T> queryForPage(String sqlMapId, Object o, int page, int rows);
 	
 }

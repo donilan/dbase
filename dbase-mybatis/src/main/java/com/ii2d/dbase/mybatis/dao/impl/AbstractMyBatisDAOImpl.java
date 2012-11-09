@@ -3,6 +3,7 @@ package com.ii2d.dbase.mybatis.dao.impl;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.util.Assert;
 
@@ -57,25 +58,13 @@ public abstract class AbstractMyBatisDAOImpl implements BaseMyBatisDAO {
 
 	@Override
 	public <T> List<T> queryForList(BaseMyBatisModel o) {
-		Assert.notNull(o);
-		return queryForList(_getSqlMapId(METHOD_SELECT, o), o);
+		return sqlSession.selectList(_getSqlMapId(METHOD_SELECT, o), o, o.getRowBounds());
 	}
 
 	@Override
-	public Page queryForPage(BaseMyBatisModel o, int page, int rows) {
+	public <T> Page<T> queryForPage(BaseMyBatisModel o, int page, int rows) {
 		Assert.notNull(o);
-		if (page < 1)
-			page = 1;
-		if (rows < 1)
-			rows = 10;
-		o.limitStartRow((page - 1) * rows);
-		o.limitEndRow(rows);
-		Page p = new Page();
-		p.setCurrentPage(page);
-		p.setCount(this.count(o));
-		p.setRows(rows);
-		p.setData(queryForList(_getSqlMapId(METHOD_SELECT, o), o, page, rows));
-		return p;
+		return queryForPage(_getSqlMapId(METHOD_SELECT, o), o, page, rows);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -92,7 +81,7 @@ public abstract class AbstractMyBatisDAOImpl implements BaseMyBatisDAO {
 	
 	@Override
 	public <T> T queryOne(String sqlMapId, Object searchObj) {
-		List<T> list = queryForList(sqlMapId, searchObj, 1, 1);
+		List<T> list = queryForPage(sqlMapId, searchObj, 1, 1);
 		if(list != null && list.size() > 0)
 			return list.get(0);
 		return null;
@@ -101,20 +90,18 @@ public abstract class AbstractMyBatisDAOImpl implements BaseMyBatisDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public <T> List<T> queryForList(String sqlMapId, Object o) {
-		Assert.notNull(o);
 		return (List<T>) sqlSession.selectList(sqlMapId, o);
 	}
 
 	@Override
-	public <T> List<T> queryForList(String sqlMapId, Object o, int page,
+	public <T> Page<T> queryForPage(String sqlMapId, Object o, int page,
 			int rows) {
-		Assert.notNull(o);
 		if (page < 1)
 			page = 1;
 		if (rows < 1)
 			rows = 10;
 
-		return sqlSession.selectList(sqlMapId, o);
+		return (Page<T>)sqlSession.selectList(sqlMapId, o, new RowBounds((page-1)*rows, rows));
 	}
 
 	public SqlSession getSqlSession() {

@@ -9,7 +9,6 @@
 	<plugins>
 		<plugin interceptor="com.ii2d.dbase.mybatis.PaginationInterceptor">
 			<property name="dialectClass" value="com.ii2d.dbase.mybatis.dialect.db.MySQLDialect"/>
-			<property name="pattern" value="list.*"/>
 		</plugin>
 	</plugins>
 	<mappers>

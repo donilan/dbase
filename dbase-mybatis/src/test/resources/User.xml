@@ -4,7 +4,7 @@
 	<insert id="insert_User" >
 	INSERT INTO user(username, password) values (#{username}, #{password})
 	</insert>
-	<select id="list_User" resultType="java.util.HashMap">
+	<select id="select_User" resultType="java.util.HashMap">
 		select * from user
 	</select>
 </mapper>
