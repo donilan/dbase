@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+	version="2.0">
+
+	<description>II2D JSP Tag Library</description>
+	<tlib-version>3.0</tlib-version>
+	<short-name>ii2d</short-name>
+	<uri>http://www.ii2d.com/tags</uri>
+
+	<tag>
+		<description>
+			Format date to date string.
+		</description>
+		<name>date</name>
+		<tag-class>com.ii2d.dbase.web.tag.TagDate</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<description>date for format.</description>
+			<name>date</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag>
+		<description>
+			Format date to datetime string.
+		</description>
+		<name>datetime</name>
+		<tag-class>com.ii2d.dbase.web.tag.TagDatetime</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<description>date for format.</description>
+			<name>date</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
+	<tag-file>
+		<description>Load javascript library</description>
+		<name>js</name>
+		<path>/META-INF/tags/js.tag</path>
+	</tag-file>
+	
+	<tag-file>
+		<description>Load css file</description>
+		<name>css</name>
+		<path>/META-INF/tags/css.tag</path>
+	</tag-file>
+	
+	<tag-file>
+		<description>Common html tag</description>
+		<name>html</name>
+		<path>/META-INF/tags/html.tag</path>
+	</tag-file>
+	
+	<tag-file>
+		<description>Common head tag</description>
+		<name>head</name>
+		<path>/META-INF/tags/head.tag</path>
+	</tag-file>
+	
+	<tag-file>
+		<description>Load ii2d css resources</description>
+		<name>cssResources</name>
+		<path>/META-INF/tags/cssResources.tag</path>
+	</tag-file>
+	
+	<tag-file>
+		<description>Load ii2d js resources</description>
+		<name>jsResources</name>
+		<path>/META-INF/tags/jsResources.tag</path>
+	</tag-file>
+</taglib>
+	
