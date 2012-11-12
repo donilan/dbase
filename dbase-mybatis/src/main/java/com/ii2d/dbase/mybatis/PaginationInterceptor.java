@@ -3,7 +3,6 @@ package com.ii2d.dbase.mybatis;
 
 import java.util.Collection;
 import java.util.Properties;
-import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -39,17 +38,18 @@ public class PaginationInterceptor implements Interceptor {
 	private final static Log LOG = LogFactory
 			.getLog(PaginationInterceptor.class);
 
-	protected Pattern _sqlMapPattern = Pattern.compile(".*select.*");
 	protected Dialect _dialect = new NullDialect();
 
 	@Override
 	public Object intercept(Invocation invocation) throws Throwable {
 		MappedStatement ms = (MappedStatement) invocation.getArgs()[0];
+		Object parameterObject = invocation.getArgs()[1];
+		BoundSql boundSql = ms.getBoundSql(parameterObject);
+		String _sql = StringUtils.trim(boundSql.getSql());
 		RowBounds rowBounds = (RowBounds) invocation.getArgs()[2];
 		if (rowBounds != null && rowBounds.getLimit() < RowBounds.NO_ROW_LIMIT
-				&& _sqlMapPattern.matcher(ms.getId()).matches()) {
-			Object parameterObject = invocation.getArgs()[1];
-			BoundSql boundSql = ms.getBoundSql(parameterObject);
+				&& StringUtils.startsWith(StringUtils.upperCase(_sql), "SELECT")) {
+			
 			if(LOG.isDebugEnabled()) {
 				LOG.debug("Row bounds: offset - " + rowBounds.getOffset() + ", limit - " + rowBounds.getLimit());
 			}
@@ -78,11 +78,6 @@ public class PaginationInterceptor implements Interceptor {
 	@Override
 	public void setProperties(Properties _p) {
 
-		String _pattern = _p.getProperty("pattern");
-		if (StringUtils.isNotBlank(_pattern)) {
-			this._sqlMapPattern = Pattern.compile(_pattern);
-		}
-		LOG.info("Using pattern " + _sqlMapPattern.pattern());
 		String _dc = _p.getProperty("dialectClass");
 		if (StringUtils.isNotBlank(_dc)) {
 			try {

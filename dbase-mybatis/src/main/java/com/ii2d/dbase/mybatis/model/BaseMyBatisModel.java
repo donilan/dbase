@@ -39,7 +39,7 @@ public class BaseMyBatisModel implements Serializable {
 			}
 			return new RowBounds((page-1)* rows, rows);
 		}
-		return null;
+		return RowBounds.DEFAULT;
 	}
 	
 	public BaseMyBatisModel orEq(String prop, Object val) {

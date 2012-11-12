@@ -56,7 +56,7 @@ public class MyBatisCommonServiceImpl implements CommonService {
 		return commonMyBatiesDAO.queryForList(sqlMapId, o);
 	}
 
-	public <T> List<T> queryForList(String sqlMapId, Object o, int page,
+	public <E> Page<E> queryForPage(String sqlMapId, Object o, int page,
 			int rows) {
 		return commonMyBatiesDAO.queryForPage(sqlMapId, o, page, rows);
 	}

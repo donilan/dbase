@@ -34,7 +34,7 @@ public interface CommonService {
 	
 	<T> List<T> queryForList(String sqlMapId, Object o);
 
-	<T> List<T> queryForList(String sqlMapId, Object o, int page, int rows);
+	<E> Page<E> queryForPage(String sqlMapId, Object o, int page, int rows);
 
 	Long query2Long(String sqlMapId, Object searchObj);
 	
