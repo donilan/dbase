@@ -50,14 +50,19 @@ public class PaginationInterceptor implements Interceptor {
 				&& _sqlMapPattern.matcher(ms.getId()).matches()) {
 			Object parameterObject = invocation.getArgs()[1];
 			BoundSql boundSql = ms.getBoundSql(parameterObject);
+			if(LOG.isDebugEnabled()) {
+				LOG.debug("Row bounds: offset - " + rowBounds.getOffset() + ", limit - " + rowBounds.getLimit());
+			}
 			BoundSql newBoundSql = MappedStatementUtils.newBoundSql(ms,
 					_dialect.getLimitString(boundSql.getSql(), rowBounds),
 					boundSql);
 			invocation.getArgs()[0] = MappedStatementUtils
 					.copyFromMappedStatement(ms, newBoundSql);
+			Long _count = DBUtils.getCount(ms, parameterObject);
+			invocation.getArgs()[2] = new RowBounds(RowBounds.NO_ROW_OFFSET, RowBounds.NO_ROW_LIMIT);
 			Object result = invocation.proceed();
 			if (result instanceof Collection) {
-				Page page = Page.make((Collection) result, rowBounds, DBUtils.getCount(ms, parameterObject));
+				Page page = Page.make((Collection) result, rowBounds, _count);
 				return page;
 			}
 			return result;

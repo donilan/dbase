@@ -24,7 +24,7 @@ public interface CommonService {
 
 	<T> List<T> queryForList(BaseMyBatisModel o);
 
-	Page queryForPage(BaseMyBatisModel o, int page, int rows);
+	<E> Page<E> queryForPage(BaseMyBatisModel o, int page, int rows);
 
 	<T> T queryForById(Object id, Class<?> clazz);
 

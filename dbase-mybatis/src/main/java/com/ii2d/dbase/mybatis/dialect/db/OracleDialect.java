@@ -23,29 +23,30 @@ public class OracleDialect implements Dialect {
 			String offsetPlaceholder, String limitPlaceholder) {
 		sql = sql.trim();
 		boolean isForUpdate = false;
-		if (sql.toLowerCase().endsWith(" for update")) {
+		if (sql.toUpperCase().endsWith(" FROM UPDATE")) {
 			sql = sql.substring(0, sql.length() - 11);
 			isForUpdate = true;
 		}
 		StringBuilder pagingSelect = new StringBuilder(sql.length() + 100);
 		if (offset > 0) {
 			pagingSelect
-					.append("select * from ( select row_.*, rownum rownum_ from ( ");
+					.append("SELECT * FROM ( SELECT ROW_TMP.*, ROWNUM ROWNUM_TMP FROM ( ");
 		} else {
-			pagingSelect.append("select * from ( ");
+			pagingSelect.append("SELECT * FROM ( ");
 		}
 		pagingSelect.append(sql);
 		if (offset > 0) {
 			String endString = offsetPlaceholder + "+" + limitPlaceholder;
-			pagingSelect.append(" ) row_ ) where rownum_ <= ")
-					.append(endString).append(" and rownum_ > ")
-					.append(offsetPlaceholder);
+			pagingSelect.append(" ) ROW_TMP ) ")
+				.append("WHERE ROWNUM_TMP <= ")
+				.append(endString).append(" AND ROWNUM_TMP > ")
+				.append(offsetPlaceholder);
 		} else {
-			pagingSelect.append(" ) where rownum <= ").append(limitPlaceholder);
+			pagingSelect.append(" ) WHERE ROWNUM <= ").append(limitPlaceholder);
 		}
 
 		if (isForUpdate) {
-			pagingSelect.append(" for update");
+			pagingSelect.append(" FOR UPDATE");
 		}
 
 		return pagingSelect.toString();

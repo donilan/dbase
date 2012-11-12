@@ -4,6 +4,8 @@ package com.ii2d.dbase.mybatis;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.ibatis.session.RowBounds;
 
 /**
@@ -13,13 +15,13 @@ import org.apache.ibatis.session.RowBounds;
  * 
  */
 public class Page<E> extends ArrayList<E> {
+	
 	private static final long serialVersionUID = 1L;
+	private static final Log LOG = LogFactory.getLog(Page.class);
 	
 	private int currentPage = 1;
 	private Long count;
 	private int rows = 10;
-	
-	
 
 	public Page() {
 		super();
@@ -35,6 +37,9 @@ public class Page<E> extends ArrayList<E> {
 	
 	public static <T> Page<T> make(Collection<? extends T> c, RowBounds rowBounds, Long count) {
 		Page<T> p = new Page<T>(c);
+		if(LOG.isDebugEnabled()) {
+			LOG.debug("date size: " + c.size() + ", after page created page size is: " + p.size());
+		}
 		int o = rowBounds.getOffset();
 		int l = rowBounds.getLimit();
 		p.rows = l;

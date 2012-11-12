@@ -100,7 +100,7 @@ public class DBUtils {
 		final String countSql = new StringBuffer(256)
 				.append("SELECT COUNT(1) FROM (")
 				.append(boundSql.getSql())
-				.append(") _COUNT").toString();
+				.append(") TMP_COUNT").toString();
 		if (LOG.isDebugEnabled()) {
 			LOG.debug("Executing sql: " + countSql);
 		}
