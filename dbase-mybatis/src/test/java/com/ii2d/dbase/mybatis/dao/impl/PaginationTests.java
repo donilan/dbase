@@ -36,8 +36,7 @@ public class PaginationTests{
 	@Test
 	public void testQuery2(){
 		User u = new User();
-		u.setPage(2);
-		u.setRows(2);
+		u.paging(1, 10);
 		List l = dao.queryForList(u);
 		System.out.println(l);
 	}

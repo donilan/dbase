@@ -2,12 +2,9 @@
 package com.ii2d.dbase.mybatis.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.session.RowBounds;
 
 /**
@@ -20,28 +17,34 @@ public class BaseMyBatisModel implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	protected Map<String, Object> orEq = new HashMap<String, Object>();
-	protected Map<String, Object> orLike = new HashMap<String, Object>();
-	protected Map<String, Object> andEq = new HashMap<String, Object>();
-	protected Map<String, Object> andLike = new HashMap<String, Object>();
-	protected Map<String, Object> orBetween = new HashMap<String, Object>();
-	protected Map<String, Object> andBetween = new HashMap<String, Object>();
-	protected int page;
-	protected int rows;
-	protected List<String> orderBy = new ArrayList<String>();
-	protected boolean asc = true;
+	protected Map<String, Object> _orEq = new HashMap<String, Object>();
+	protected Map<String, Object> _orLike = new HashMap<String, Object>();
+	protected Map<String, Object> _andEq = new HashMap<String, Object>();
+	protected Map<String, Object> _andLike = new HashMap<String, Object>();
+	protected Map<String, Object> _orBetween = new HashMap<String, Object>();
+	protected Map<String, Object> _andBetween = new HashMap<String, Object>();
+	protected Map<String, String> _orderBy = new HashMap<String, String>();
+	protected Map<String, Integer> _pagination = new HashMap<String, Integer>();
+	
 	
 	public RowBounds getRowBounds() {
-		if(page < 1)
-			page = 1;
-		if(rows < 1)
-			rows = RowBounds.NO_ROW_LIMIT;
-		return new RowBounds((page-1)* rows, rows);
+		Integer page = _pagination.get("page");
+		if(page != null) {
+			if(page < 1) {
+				page = 1;
+			}
+			Integer rows = _pagination.get("rows");
+			if(rows == null || rows < 1) {
+				rows = 10;
+			}
+			return new RowBounds((page-1)* rows, rows);
+		}
+		return null;
 	}
 	
 	public BaseMyBatisModel orEq(String prop, Object val) {
 		if(val != null) {
-			orEq.put(prop, val);
+			_orEq.put(prop, val);
 		}
 		return this;
 	}
@@ -49,22 +52,40 @@ public class BaseMyBatisModel implements Serializable {
 
 	public BaseMyBatisModel orLike(String prop, String val) {
 		if(val != null) {
-			orLike.put(prop, val);
+			_orLike.put(prop, val);
 		}
 		return this;
 	}
 	
 	public BaseMyBatisModel andLike(String prop, String val) {
 		if(val != null) {
-			andLike.put(prop, val);
+			_andLike.put(prop, val);
 		}
 		return this;
 	}
 	
 	public BaseMyBatisModel andEq(String prop, String val) {
 		if(val != null) {
-			andEq.put(prop, val);
+			_andEq.put(prop, val);
 		}
+		return this;
+	}
+	
+	/**
+	 * @see #paging(Integer, Integer)
+	 */
+	public BaseMyBatisModel paging(Integer page) {
+		return paging(page, null);
+	}
+	/**
+	 * Pagination method
+	 * @author Doni
+	 * @since 2012-11-12
+	 * @return
+	 */
+	public BaseMyBatisModel paging(Integer page, Integer rows) {
+		_pagination.put("page", page);
+		_pagination.put("rows", rows);
 		return this;
 	}
 	
@@ -75,78 +96,56 @@ public class BaseMyBatisModel implements Serializable {
 	 * @param column Column in table 
 	 * @return this
 	 */
+	public BaseMyBatisModel orderBy(String column, boolean isAsc) {
+		_orderBy.put(column, isAsc? "ASC": "DESC");
+		return this;
+	}
 	public BaseMyBatisModel orderBy(String column) {
-		if(StringUtils.isNotEmpty(column) && column.length() < 40) {
-			this.orderBy.add(column);
-		}
+		orderBy(column, true);
 		return this;
-	}
-	public BaseMyBatisModel orderBy(List<String> orderBy) {
-		this.orderBy = orderBy;
-		return this;
-	}
-
-	public BaseMyBatisModel asc(boolean asc) {
-		this.asc = asc;
-		return this;
-	}
-
-	public boolean isAsc() {
-		return asc;
 	}
 
 	public Map<String, Object> getOrEq() {
-		return orEq;
+		return _orEq;
 	}
 
 	public Map<String, Object> getOrLike() {
-		return orLike;
+		return _orLike;
 	}
 
 	public Map<String, Object> getAndEq() {
-		return andEq;
+		return _andEq;
 	}
 
 	public Map<String, Object> getAndLike() {
-		return andLike;
+		return _andLike;
 	}
 
-	public List<String> getOrderBy() {
-		return orderBy;
+	public Map<String, String> getOrderBy() {
+		return _orderBy;
 	}
 
 	public Map<String, Object> getOrBetween() {
-		return orBetween;
+		return _orBetween;
 	}
 
 
 	public void setOrBetween(Map<String, Object> orBetween) {
-		this.orBetween = orBetween;
+		this._orBetween = orBetween;
 	}
 
 
 	public Map<String, Object> getAndBetween() {
-		return andBetween;
+		return _andBetween;
 	}
 
 	public void setAndBetween(Map<String, Object> andBetween) {
-		this.andBetween = andBetween;
+		this._andBetween = andBetween;
 	}
 
-	public int getPage() {
-		return page;
+	public Map<String, Integer> getPagination() {
+		return _pagination;
 	}
 
-	public void setPage(int page) {
-		this.page = page;
-	}
-
-	public int getRows() {
-		return rows;
-	}
-
-	public void setRows(int rows) {
-		this.rows = rows;
-	}
 	
 }
