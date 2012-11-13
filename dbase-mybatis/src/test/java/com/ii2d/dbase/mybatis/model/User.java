@@ -7,8 +7,7 @@ package com.ii2d.dbase.mybatis.model;
  * @version $id$
  * 
  */
-public class User extends BaseMyBatisModel {
-	private static final long serialVersionUID = 1L;
+public class User {
 	private Long id;
 	private String username;
 	private String password;

@@ -1,7 +1,7 @@
 //~ generate by eclipse
 package com.ii2d.dbase.mybatis.dialect;
 
-import org.apache.ibatis.session.RowBounds;
+import com.ii2d.dbase.mybatis.SearchObject;
 
 /**
  * @author Doni
@@ -13,6 +13,6 @@ public interface Dialect {
 	
 	public boolean supportsLimit();
 	
-	public String getLimitString(String sql, RowBounds rowBounds);
+	public String getLimitString(String sql, SearchObject rowBounds);
 
 }

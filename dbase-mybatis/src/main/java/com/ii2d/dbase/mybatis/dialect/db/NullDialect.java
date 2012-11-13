@@ -1,8 +1,8 @@
 //~ generate by eclipse
 package com.ii2d.dbase.mybatis.dialect.db;
 
-import org.apache.ibatis.session.RowBounds;
 
+import com.ii2d.dbase.mybatis.SearchObject;
 import com.ii2d.dbase.mybatis.dialect.Dialect;
 
 /**
@@ -19,7 +19,7 @@ public class NullDialect implements Dialect {
 	}
 
 	@Override
-	public String getLimitString(String sql, RowBounds rowBounds) {
+	public String getLimitString(String sql, SearchObject rowBounds) {
 		return sql;
 	}
 

@@ -1,12 +1,7 @@
 //~ generate by eclipse
 package com.ii2d.dbase.mybatis;
 
-import java.util.ArrayList;
 import java.util.Collection;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.ibatis.session.RowBounds;
 
 /**
  * @author Doni
@@ -14,37 +9,21 @@ import org.apache.ibatis.session.RowBounds;
  * @version $id$
  * 
  */
-public class Page<E> extends ArrayList<E> {
-	
-	private static final long serialVersionUID = 1L;
-	private static final Log LOG = LogFactory.getLog(Page.class);
+public class Page<E> {
 	
 	private int currentPage = 1;
 	private Long count;
 	private int rows = 10;
+	private Collection<E> data;
 
-	public Page() {
-		super();
-	}
-
-	public Page(Collection<? extends E> c) {
-		super(c);
-	}
-
-	public Page(int initialCapacity) {
-		super(initialCapacity);
-	}
-	
-	public static <T> Page<T> make(Collection<? extends T> c, RowBounds rowBounds, Long count) {
-		Page<T> p = new Page<T>(c);
-		if(LOG.isDebugEnabled()) {
-			LOG.debug("date size: " + c.size() + ", after page created page size is: " + p.size());
-		}
-		int o = rowBounds.getOffset();
-		int l = rowBounds.getLimit();
+	public static <T> Page<T> make(PaginationResultHandler rh) {
+		Page<T> p = new Page<T>();
+		int o = rh.getSearchObject().getOffset();
+		int l = rh.getSearchObject().getLimit();
+		p.data = (Collection<T>)rh.getResult();
 		p.rows = l;
 		p.currentPage = (o+l+1)/l;
-		p.count = count;
+		p.count = rh.getCount();
 		return p;
 	}
 
@@ -85,6 +64,14 @@ public class Page<E> extends ArrayList<E> {
 		return new StringBuffer(255).append("Page{ count: ").append(count)
 				.append(", currentPage: ").append(currentPage)
 				.append(", rows: ").append(rows).append(", maxPage: ").append(getMaxPage()).append(", data: ")
-				.append(super.toString()).toString();
+				.append(data).toString();
+	}
+
+	public Collection<E> getData() {
+		return data;
+	}
+
+	public void setData(Collection<E> data) {
+		this.data = data;
 	}
 }

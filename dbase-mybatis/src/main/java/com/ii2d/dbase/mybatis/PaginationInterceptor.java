@@ -1,7 +1,6 @@
 //~ generate by eclipse
 package com.ii2d.dbase.mybatis;
 
-import java.util.Collection;
 import java.util.Properties;
 
 import org.apache.commons.lang3.StringUtils;
@@ -42,32 +41,40 @@ public class PaginationInterceptor implements Interceptor {
 
 	@Override
 	public Object intercept(Invocation invocation) throws Throwable {
-		MappedStatement ms = (MappedStatement) invocation.getArgs()[0];
-		Object parameterObject = invocation.getArgs()[1];
-		BoundSql boundSql = ms.getBoundSql(parameterObject);
-		String _sql = StringUtils.trim(boundSql.getSql());
-		RowBounds rowBounds = (RowBounds) invocation.getArgs()[2];
-		if (rowBounds != null && rowBounds.getLimit() < RowBounds.NO_ROW_LIMIT
-				&& StringUtils.startsWith(StringUtils.upperCase(_sql), "SELECT")) {
-			
-			if(LOG.isDebugEnabled()) {
-				LOG.debug("Row bounds: offset - " + rowBounds.getOffset() + ", limit - " + rowBounds.getLimit());
-			}
+		MappedStatement ms 		= (MappedStatement) invocation.getArgs()[0];
+		SearchObject searchObject	= _toSearchObject(invocation.getArgs()[1]);
+		PaginationResultHandler rh = toPaginationResultHandler(invocation.getArgs()[3]);
+		
+		if (searchObject != null && rh != null) {
+			BoundSql boundSql = ms.getBoundSql(searchObject);
 			BoundSql newBoundSql = MappedStatementUtils.newBoundSql(ms,
-					_dialect.getLimitString(boundSql.getSql(), rowBounds),
+					_dialect.getLimitString(boundSql.getSql(), searchObject),
 					boundSql);
 			invocation.getArgs()[0] = MappedStatementUtils
 					.copyFromMappedStatement(ms, newBoundSql);
-			Long _count = DBUtils.getCount(ms, parameterObject);
-			invocation.getArgs()[2] = new RowBounds(RowBounds.NO_ROW_OFFSET, RowBounds.NO_ROW_LIMIT);
-			Object result = invocation.proceed();
-			if (result instanceof Collection) {
-				Page page = Page.make((Collection) result, rowBounds, _count);
-				return page;
-			}
-			return result;
+			Long _count = DBUtils.getCount(ms, searchObject);
+			rh.setCount(_count);
+			rh.setSearchObject(searchObject);
 		}
 		return invocation.proceed();
+	}
+	
+	protected SearchObject _toSearchObject(Object o) {
+		if(o instanceof SearchObject)
+			return (SearchObject)o;
+		return null;
+	}
+	
+	protected PaginationResultHandler toPaginationResultHandler(Object o) {
+		if(o instanceof PaginationResultHandler) 
+			return (PaginationResultHandler)o;
+		return null;
+	}
+	
+	protected boolean isHandleThisOne(BoundSql boundSql, RowBounds rowBounds) {
+		String _sql = StringUtils.trim(boundSql.getSql());
+		return rowBounds != null && rowBounds.getLimit() < RowBounds.NO_ROW_LIMIT
+				&& StringUtils.startsWith(StringUtils.upperCase(_sql), "SELECT");
 	}
 
 	@Override

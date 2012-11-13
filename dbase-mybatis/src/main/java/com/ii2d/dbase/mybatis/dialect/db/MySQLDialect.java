@@ -1,20 +1,20 @@
 package com.ii2d.dbase.mybatis.dialect.db;
 
-import org.apache.ibatis.session.RowBounds;
 
+import com.ii2d.dbase.mybatis.SearchObject;
 import com.ii2d.dbase.mybatis.dialect.Dialect;
 
 
 public class MySQLDialect implements Dialect {
 
 	@Override
-	public String getLimitString(String sql, RowBounds rowBounds) {
+	public String getLimitString(String _sql, SearchObject _so) {
 		StringBuilder sb = new StringBuilder(256);
-		sb.append(sql).append(" LIMIT ");
-		if(rowBounds.getOffset() > 0) {
-			sb.append(rowBounds.getOffset()).append(", ").append(rowBounds.getLimit());
+		sb.append(_sql).append(" LIMIT ");
+		if(_so.getOffset() > 0) {
+			sb.append(_so.getOffset()).append(", ").append(_so.getLimit());
 		} else {
-			sb.append(rowBounds.getLimit());
+			sb.append(_so.getLimit());
 		}
 		return sb.toString();
 	}

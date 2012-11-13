@@ -3,44 +3,76 @@ package com.ii2d.dbase.commons.service;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.session.ResultHandler;
+import org.apache.ibatis.session.RowBounds;
 
 import com.ii2d.dbase.mybatis.Page;
-import com.ii2d.dbase.mybatis.model.BaseMyBatisModel;
+import com.ii2d.dbase.mybatis.SearchObject;
 
 /**
  * @author Doni
- * @since 2012-9-17
+ * @since 2012-11-12
  * @version $id$
  * 
  */
 public interface CommonService {
 
-	int insert(BaseMyBatisModel o);
+	public abstract int insert(Object o);
 
-	int update(BaseMyBatisModel o);
+	public abstract int insert(Collection<?> objs);
 
-	@SuppressWarnings("rawtypes")
-	int delete(Object id, Class clazz);
+	public abstract int update(Object o);
 
-	<T> List<T> queryForList(BaseMyBatisModel o);
+	public abstract int delete(Object id, Class<?> clazz);
 
-	<E> Page<E> queryForPage(BaseMyBatisModel o, int page, int rows);
+	public abstract <T> T selectById(Object id, Class<?> clazz);
 
-	<T> T queryForById(Object id, Class<?> clazz);
+	public abstract <E> Page<E> select(SearchObject o, Class<?> clazz);
 
-	Long count(BaseMyBatisModel o);
+	public abstract <E> Page<E> select(String sqlMapId, SearchObject o);
 
-	<T> T queryOne(String sqlMapId, Object searchObj);
+	public abstract <T> T selectOne(String statement);
+
+	public abstract <T> T selectOne(String statement, Object parameter);
+
+	public abstract <K, V> Map<K, V> selectMap(String statement, String mapKey);
+
+	public abstract <K, V> Map<K, V> selectMap(String statement,
+			Object parameter, String mapKey);
+
+	public abstract <K, V> Map<K, V> selectMap(String statement,
+			Object parameter, String mapKey, RowBounds rowBounds);
+
+	public abstract <E> List<E> selectList(String statement);
+
+	public abstract <E> List<E> selectList(String statement, Object parameter);
+
+	public abstract <E> List<E> selectList(String statement, Object parameter,
+			RowBounds rowBounds);
 	
-	<T> List<T> queryForList(String sqlMapId, Object o);
+	<E> List<E> selectList(SearchObject o, Class<?> clazz);
 
-	<E> Page<E> queryForPage(String sqlMapId, Object o, int page, int rows);
+	public abstract void select(String statement, ResultHandler handler);
 
-	Long query2Long(String sqlMapId, Object searchObj);
-	
-	int update(String sqlMapId, Object updateObj);
-	
-	int insert(String sqlMapId, Object insertObj);
-	
-	int insert(Collection<? extends BaseMyBatisModel> objects);
+	public abstract void select(String statement, Object parameter,
+			ResultHandler handler);
+
+	public abstract void select(String statement, Object parameter,
+			RowBounds rowBounds, ResultHandler handler);
+
+	public abstract int insert(String statement);
+
+	public abstract int insert(String statement, Object parameter);
+
+	public abstract int update(String statement);
+
+	public abstract int update(String statement, Object parameter);
+
+	public abstract int delete(String statement);
+
+	public abstract int delete(String statement, Object parameter);
+
+	Long count(SearchObject o, Class<?> clazz);
 }

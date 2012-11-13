@@ -3,13 +3,15 @@ package com.ii2d.dbase.mybatis.dao.impl;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.ibatis.session.RowBounds;
-import org.apache.ibatis.session.SqlSession;
-import org.springframework.util.Assert;
+import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.SqlSessionFactory;
+import org.mybatis.spring.SqlSessionTemplate;
+import org.springframework.dao.support.PersistenceExceptionTranslator;
 
 import com.ii2d.dbase.mybatis.Page;
+import com.ii2d.dbase.mybatis.PaginationResultHandler;
+import com.ii2d.dbase.mybatis.SearchObject;
 import com.ii2d.dbase.mybatis.dao.BaseMyBatisDAO;
-import com.ii2d.dbase.mybatis.model.BaseMyBatisModel;
 
 /**
  * Base mybatis dao impl
@@ -18,7 +20,7 @@ import com.ii2d.dbase.mybatis.model.BaseMyBatisModel;
  * @since 2012-09-09
  * @version $id$
  */
-public abstract class AbstractMyBatisDAOImpl implements BaseMyBatisDAO {
+public abstract class AbstractMyBatisDAOImpl extends SqlSessionTemplate implements BaseMyBatisDAO {
 
 	public static final String METHOD_INSERT = "insert";
 	public static final String METHOD_UPDATE = "update";
@@ -27,89 +29,61 @@ public abstract class AbstractMyBatisDAOImpl implements BaseMyBatisDAO {
 	public static final String METHOD_SELECT_BY_ID = "select_by_id";
 	public static final String METHOD_COUNT = "count";
 
-	protected org.apache.ibatis.session.SqlSession sqlSession;
+	public AbstractMyBatisDAOImpl(SqlSessionFactory sqlSessionFactory,
+			ExecutorType executorType,
+			PersistenceExceptionTranslator exceptionTranslator) {
+		super(sqlSessionFactory, executorType, exceptionTranslator);
+	}
 
-	@Override
-	public int insert(BaseMyBatisModel o) {
+	public AbstractMyBatisDAOImpl(SqlSessionFactory sqlSessionFactory,
+			ExecutorType executorType) {
+		super(sqlSessionFactory, executorType);
+	}
+
+	public AbstractMyBatisDAOImpl(SqlSessionFactory sqlSessionFactory) {
+		super(sqlSessionFactory);
+	}
+
+	public int insert(Object o) {
 		return insert(_getSqlMapId(METHOD_INSERT, o), o);
 	}
-
-	@Override
-	public int update(BaseMyBatisModel o) {
-		return update(_getSqlMapId(METHOD_UPDATE, o), o);
-	}
-	
-	@Override
-	public int insert(Collection<? extends BaseMyBatisModel> objs) {
+	public int insert(Collection<?> objs) {
 		if(objs == null || objs.isEmpty())
 			return 0;
-		for(BaseMyBatisModel o: objs)
+		for(Object o: objs)
 			insert(o);
 		return objs.size();
 	}
 	
-	@SuppressWarnings("rawtypes")
-	@Override
-	public int delete(Object id, Class clazz) {
-		Assert.notNull(clazz);
-		Assert.notNull(id);
-		return sqlSession.update(_getSqlMapId(METHOD_DELETE, clazz), id);
-	}
-
-	@Override
-	public <T> List<T> queryForList(BaseMyBatisModel o) {
-		return sqlSession.selectList(_getSqlMapId(METHOD_SELECT, o), o, o.getRowBounds());
-	}
-
-	@Override
-	public <T> Page<T> queryForPage(BaseMyBatisModel o, int page, int rows) {
-		Assert.notNull(o);
-		return queryForPage(_getSqlMapId(METHOD_SELECT, o), o, page, rows);
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T> T queryForById(Object id, Class<?> clazz) {
-		return (T) sqlSession.selectOne(
-				_getSqlMapId(METHOD_SELECT_BY_ID, clazz), id);
-	}
-
-	@Override
-	public Long count(BaseMyBatisModel o) {
-		return query2Long(_getSqlMapId(METHOD_COUNT, o), o);
+	public int update(Object o) {
+		return update(_getSqlMapId(METHOD_UPDATE, o), o);
 	}
 	
-	@Override
-	public <T> T queryOne(String sqlMapId, Object searchObj) {
-		List<T> list = queryForPage(sqlMapId, searchObj, 1, 1);
-		if(list != null && list.size() > 0)
-			return list.get(0);
-		return null;
+	public int delete(Object id, Class<?> clazz) {
+		return update(_getSqlMapId(METHOD_DELETE, clazz), id);
 	}
 
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T> List<T> queryForList(String sqlMapId, Object o) {
-		return (List<T>) sqlSession.selectList(sqlMapId, o);
+	public Long count(SearchObject o, Class<?> clazz) {
+		return selectOne(_getSqlMapId(METHOD_COUNT, clazz), o);
 	}
-
-	@Override
-	public <T> Page<T> queryForPage(String sqlMapId, Object o, int page,
-			int rows) {
-		if (page < 1)
-			page = 1;
-		if (rows < 1)
-			rows = 10;
-
-		return (Page<T>)sqlSession.selectList(sqlMapId, o, new RowBounds((page-1)*rows, rows));
+	
+	public <T> T selectById(Object id, Class<?> clazz) {
+		return (T) selectOne(
+				_getSqlMapId(METHOD_SELECT_BY_ID, clazz), id);
 	}
-
-	public SqlSession getSqlSession() {
-		return sqlSession;
+	
+	public <E> Page<E> select(SearchObject o, Class<?> clazz) {
+		return select(_getSqlMapId(METHOD_SELECT, clazz), o);
 	}
-
-	public void setSqlSession(SqlSession sqlSession) {
-		this.sqlSession = sqlSession;
+	
+	public <E> Page<E> select(String sqlMapId, SearchObject o) {
+		PaginationResultHandler rh = new PaginationResultHandler();
+		select(sqlMapId, o, rh);
+		return Page.<E>make(rh);
+	}
+	
+	public <E> List<E> selectList(SearchObject o, Class<?> clazz) {
+		return selectList(_getSqlMapId(METHOD_SELECT, clazz), o);
 	}
 
 	/**
@@ -123,7 +97,7 @@ public abstract class AbstractMyBatisDAOImpl implements BaseMyBatisDAO {
 	 *            - class
 	 * @return example insert_Object
 	 */
-	protected String _getSqlMapId(String method, BaseMyBatisModel o) {
+	protected String _getSqlMapId(String method, Object o) {
 		if (o == null) {
 			throw new RuntimeException("Param object cann't be null.");
 		}
@@ -136,22 +110,5 @@ public abstract class AbstractMyBatisDAOImpl implements BaseMyBatisDAO {
 					"Param clazz cann't be null or equals Object class.");
 		return String.format("%s_%s", method, clazz.getSimpleName());
 	}
-
-	@Override
-	public int insert(String sqlMapId, Object insertObj) {
-		return (Integer) sqlSession.insert(sqlMapId, insertObj);
-	}
-
-	@Override
-	public int update(String sqlMapId, Object updateObj) {
-		Assert.notNull(updateObj);
-		return sqlSession.update(sqlMapId, updateObj);
-	}
-
-	@Override
-	public Long query2Long(String sqlMapId, Object searchObj) {
-		return (Long) sqlSession.selectOne(sqlMapId, searchObj);
-	}
-
-
+	
 }
