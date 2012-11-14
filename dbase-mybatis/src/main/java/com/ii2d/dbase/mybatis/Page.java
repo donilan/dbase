@@ -13,24 +13,29 @@ public class Page<E> {
 	
 	private int currentPage = 1;
 	private Long count;
-	private int rows = 10;
+	private int limit = 10;
 	private Collection<E> data;
 
 	public static <T> Page<T> make(PaginationResultHandler rh) {
 		Page<T> p = new Page<T>();
-		int o = rh.getSearchObject().getOffset();
-		int l = rh.getSearchObject().getLimit();
-		p.data = (Collection<T>)rh.getResult();
-		p.rows = l;
-		p.currentPage = (o+l+1)/l;
-		p.count = rh.getCount();
+		if(rh != null) {
+			SearchObject so = rh.getSearchObject();
+			if(so != null) {
+				int o = so.getOffset();
+				int l = so.getLimit();
+				p.limit = l;
+				p.currentPage = (o+l+1)/l;
+			}
+			p.data = (Collection<T>)rh.getResult();
+			p.count = rh.getCount();
+		}
 		return p;
 	}
 
 	public int getMaxPage() {
 		int count = this.count.intValue();
-		int maxPage = count / rows;
-		if (count % rows > 0) {
+		int maxPage = count / limit;
+		if (count % limit > 0) {
 			maxPage++;
 		}
 		return maxPage;
@@ -52,18 +57,10 @@ public class Page<E> {
 		this.count = count;
 	}
 
-	public int getRows() {
-		return rows;
-	}
-
-	public void setRows(int rows) {
-		this.rows = rows;
-	}
-
 	public String toString() {
 		return new StringBuffer(255).append("Page{ count: ").append(count)
 				.append(", currentPage: ").append(currentPage)
-				.append(", rows: ").append(rows).append(", maxPage: ").append(getMaxPage()).append(", data: ")
+				.append(", rows: ").append(limit).append(", maxPage: ").append(getMaxPage()).append(", data: ")
 				.append(data).toString();
 	}
 
@@ -73,5 +70,13 @@ public class Page<E> {
 
 	public void setData(Collection<E> data) {
 		this.data = data;
+	}
+
+	public int getLimit() {
+		return limit;
+	}
+
+	public void setLimit(int limit) {
+		this.limit = limit;
 	}
 }

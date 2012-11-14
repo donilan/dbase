@@ -97,17 +97,19 @@ public class DBUtils {
 			final Object parameterObject)
 			throws SQLException {
 		BoundSql boundSql = ms.getBoundSql(parameterObject);
-		final String countSql = new StringBuffer(256)
+		String countSql = new StringBuffer(256)
 				.append("SELECT COUNT(1) FROM (")
 				.append(boundSql.getSql())
 				.append(") TMP_COUNT").toString();
-		if (LOG.isDebugEnabled()) {
-			LOG.debug("Executing sql: " + countSql);
-		}
+		
 		PreparedStatement st = null;
 		ResultSet rs = null;
 		Connection connection = getConn(ms);
 		try {
+			countSql = countSql.replaceAll("\\s+", " ");
+			if (LOG.isDebugEnabled()) {
+				LOG.debug("Executing sql: " + countSql);
+			}
 			st = connection.prepareStatement(countSql);
 			BoundSql countBS = new BoundSql(ms.getConfiguration(), countSql,
 					boundSql.getParameterMappings(), parameterObject);
@@ -121,14 +123,15 @@ public class DBUtils {
 			}
 			return 0L;
 		} finally {
-			close(rs, st);
+			close(rs, st, connection);
 		}
 	}
 
-	public static void close(ResultSet rs, PreparedStatement st)
+	public static void close(ResultSet rs, PreparedStatement st, Connection conn)
 			throws SQLException {
 		close(rs);
 		close(st);
+		close(conn);
 	}
 
 	public static void close(PreparedStatement st) throws SQLException {
@@ -140,6 +143,12 @@ public class DBUtils {
 	public static void close(ResultSet rs) throws SQLException {
 		if (rs != null) {
 			rs.close();
+		}
+	}
+	
+	public static void close(Connection conn) throws SQLException {
+		if( conn != null) {
+			conn.close();
 		}
 	}
 }

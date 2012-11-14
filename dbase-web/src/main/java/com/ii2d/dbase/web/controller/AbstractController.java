@@ -22,14 +22,14 @@ public abstract class AbstractController {
 	@RequestMapping(method = RequestMethod.GET, value = "{id}")
 	public String find(@PathVariable java.lang.Integer id, ModelMap model) {
 		model.addAttribute(INSTANCE,
-				getCommonService().queryForById(id, getInstanceClass()));
+				getCommonService().selectById(id, getInstanceClass()));
 		return String.format("admin/%s/show", getControllerName());
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value = "/edit/{id}")
 	public String edit(@PathVariable(value = "id") int id, ModelMap model) {
 		model.addAttribute(INSTANCE,
-				getCommonService().queryForById(id, getInstanceClass()));
+				getCommonService().selectById(id, getInstanceClass()));
 		return String.format("admin/%s/edit", getControllerName());
 	}
 
