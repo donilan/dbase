@@ -73,5 +73,11 @@
 		<name>jsResources</name>
 		<path>/META-INF/tags/jsResources.tag</path>
 	</tag-file>
+	
+	<tag-file>
+		<description>II2d pagination</description>
+		<name>paginate</name>
+		<path>/META-INF/tags/paginate.tag</path>
+	</tag-file>
 </taglib>
 	
