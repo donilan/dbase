@@ -15,7 +15,12 @@
 		    		break;
 		    	}
 		    }
-		    if(i<0) {kvp[0] = [key,value].join('=');}
+		    if(i<0) {
+		    	if(kvp.length > 0 && !kvp[0]) {
+		    		kvp.splice(0,1);
+		    	}
+		    	kvp[kvp.length] = [key,value].join('=');
+		    }
 		    return kvp.join('&'); 
 		},
 		
