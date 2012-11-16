@@ -79,5 +79,23 @@
 		<name>paginate</name>
 		<path>/META-INF/tags/paginate.tag</path>
 	</tag-file>
+	
+	<tag-file>
+		<description>II2d menu tag</description>
+		<name>menu</name>
+		<path>/META-INF/tags/menu.tag</path>
+	</tag-file>
+	
+	<tag-file>
+		<description>II2d sub menu tag</description>
+		<name>subMenu</name>
+		<path>/META-INF/tags/subMenu.tag</path>
+	</tag-file>
+	
+	<tag-file>
+		<description>II2d menu item tag</description>
+		<name>menuItem</name>
+		<path>/META-INF/tags/menuItem.tag</path>
+	</tag-file>
 </taglib>
 	

@@ -54,7 +54,11 @@ public class ResourcesController {
 				IOUtils.copy(in, response.getOutputStream());
 				response.flushBuffer();
 			} catch (IOException e) {
-				e.printStackTrace();
+				try {
+					response.sendError(404, "Resource Not found.");
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			}
 		}
 	}

@@ -8,4 +8,5 @@
 <ii2d:js lib="jquery-ui" version="1.9.0" packaging="custom.min" />	
 <ii2d:js lib="jquery.tmpl" />
 <ii2d:js lib="jquery.tmplPlus" />
+<ii2d:js lib="ddsmoothmenu" version="1.5" />
 <ii2d:js lib="jquery.utils" version="0.0.1" />
