@@ -38,6 +38,66 @@
 		</attribute>
 	</tag>
 	
+	<tag>
+		<description>Td for list table tag.</description>
+	    <name>listTableTd</name>
+	    <tag-class>com.ii2d.dbase.web.tag.TagListTableTd</tag-class> 
+	    <body-content>JSP</body-content>
+	    <attribute>
+	    	<name>format</name>
+	    	<rtexprvalue>true</rtexprvalue>
+	    </attribute>
+	    <attribute>
+	    	<name>path</name>
+	    	<rtexprvalue>true</rtexprvalue>
+	    </attribute>
+	</tag>
+	<tag>
+		<description>Tr for list table tag.</description>
+	    <name>listTableTr</name>
+	    <tag-class>com.ii2d.dbase.web.tag.TagListTableTr</tag-class>
+	    <body-content>JSP</body-content>
+	</tag>
+	<tag>
+		<description>This is a loop tag for list table tag.</description>
+	    <name>listTableBody</name>
+	    <tag-class>com.ii2d.dbase.web.tag.TagListTableBody</tag-class>
+	    <body-content>JSP</body-content>
+	    <attribute>
+	    	<name>items</name>
+	    	<rtexprvalue>true</rtexprvalue>
+	    </attribute>
+	    <attribute>
+	    	<name>var</name>
+	    	<rtexprvalue>true</rtexprvalue>
+	    </attribute>
+	    <attribute>
+	    	<name>varStatus</name>
+	    	<rtexprvalue>true</rtexprvalue>
+	    </attribute>
+	</tag>
+	
+	<tag>
+		<description></description>
+	    <name>listTable</name>
+	    <tag-class>com.ii2d.dbase.web.tag.TagListTable</tag-class>
+	    <body-content>JSP</body-content>
+	</tag>
+	<tag>
+		<name>tHead</name>
+		<tag-class>com.ii2d.dbase.web.tag.TagTHead</tag-class>
+		<body-content>empty</body-content>
+		<attribute>
+			<name>headArray</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<attribute>
+			<name>widthArray</name>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+	</tag>
+	
 	<tag-file>
 		<description>Load javascript library</description>
 		<name>js</name>
