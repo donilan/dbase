@@ -142,14 +142,14 @@ init:function(setting){
 		+'</style>')
 	}
 	this.shadow.enable=(document.all && !window.XMLHttpRequest)? false : this.shadow.enable //in IE6, always disable shadow
-	jQuery(document).ready(function($){ //ajax menu?
-		if (typeof setting.contentsource=="object"){ //if external ajax menu
-			ddsmoothmenu.getajaxmenu($, setting)
-		}
-		else{ //else if markup menu
-			ddsmoothmenu.buildmenu($, setting)
-		}
-	})
+//	jQuery(document).ready(function($){ //ajax menu?
+	if (typeof setting.contentsource=="object"){ //if external ajax menu
+		ddsmoothmenu.getajaxmenu($, setting)
+	}
+	else{ //else if markup menu
+		ddsmoothmenu.buildmenu($, setting)
+	}
+//	})
 }
 
 } //end ddsmoothmenu variable
