@@ -5,7 +5,7 @@
 
 	<groupId>com.ii2d</groupId>
 	<artifactId>dbase</artifactId>
-	<version>0.0.5-SNAPSHOT</version>
+	<version>0.0.6-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>dbase</name>
@@ -29,7 +29,7 @@
 			<url>svn:https://ii2d-maven.googlecode.com/svn/snapshot</url>
 			 -->
 			 <id>ssh-repository</id>
-			 <url>scpexe://192.168.2.212/root/repo</url>
+			 <url>scpexe://192.168.2.241/root/repo</url>
 		</snapshotRepository>
 	</distributionManagement>
 

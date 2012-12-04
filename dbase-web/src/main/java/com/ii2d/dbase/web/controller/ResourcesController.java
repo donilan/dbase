@@ -55,6 +55,7 @@ public class ResourcesController {
 				response.flushBuffer();
 			} catch (IOException e) {
 				try {
+					LOG.info("File " + file.toString() + " not found.");
 					response.sendError(404, "Resource Not found.");
 				} catch (IOException e1) {
 					e1.printStackTrace();
