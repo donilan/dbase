@@ -49,6 +49,13 @@ public class SearchObject {
 		return limit;
 	}
 	
+	public SearchObject orEq(String prop, String val) {
+		if(val != null) {
+			_orEq.put(prop, val);
+		}
+		return this;
+	}
+	
 	public SearchObject orEq(String prop, Object val) {
 		if(val != null) {
 			_orEq.put(prop, val);
@@ -56,8 +63,16 @@ public class SearchObject {
 		return this;
 	}
 	
+	
+	
 
 	public SearchObject orLike(String prop, String val) {
+		if(val != null) {
+			_orLike.put(prop, val);
+		}
+		return this;
+	}
+	public SearchObject orLike(String prop, Object val) {
 		if(val != null) {
 			_orLike.put(prop, val);
 		}
@@ -70,8 +85,21 @@ public class SearchObject {
 		}
 		return this;
 	}
+	public SearchObject andLike(String prop, Object val) {
+		if(val != null) {
+			_andLike.put(prop, val);
+		}
+		return this;
+	}
 	
 	public SearchObject andEq(String prop, String val) {
+		if(val != null) {
+			_andEq.put(prop, val);
+		}
+		return this;
+	}
+	
+	public SearchObject andEq(String prop, Object val) {
 		if(val != null) {
 			_andEq.put(prop, val);
 		}

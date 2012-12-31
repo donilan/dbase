@@ -11,7 +11,7 @@
 
 	<bean id="propertyConfigurer"
 		class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
-		<property name="location" value="classpath:dbase.properties" />
+		<property name="location" value="classpath:application.properties" />
 	</bean>
 
 	<!--To enable @RequestMapping process on type level and method level -->

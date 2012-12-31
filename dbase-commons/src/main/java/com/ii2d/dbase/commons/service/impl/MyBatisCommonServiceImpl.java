@@ -21,7 +21,7 @@ import com.ii2d.dbase.mybatis.dao.impl.CommonMyBatisDAO;
  */
 public class MyBatisCommonServiceImpl implements CommonService {
 	
-	private CommonMyBatisDAO commonMyBatiesDAO;
+	protected CommonMyBatisDAO commonMyBatiesDAO;
 	
 	public CommonMyBatisDAO getCommonMyBatiesDAO() {
 		return commonMyBatiesDAO;
