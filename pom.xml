@@ -116,9 +116,8 @@
 	<modules>
 		<module>dbase-utils</module>
 		<module>dbase-mybatis</module>
-		<module>dbase-template-mybatis</module>
 		<module>dbase-commons</module>
 		<module>dbase-web</module>
-    <module>dbase-template</module>
+    	<module>dbase-template</module>
   </modules>
 </project>
