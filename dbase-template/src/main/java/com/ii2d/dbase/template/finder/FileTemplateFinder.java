@@ -12,10 +12,10 @@ import org.apache.commons.io.FileUtils;
  * @version $id$
  * 
  */
-public class FileTemplateFinder extends TemplateFinder {
+public class FileTemplateFinder extends DTemplateFinder {
 
 	@Override
-	protected String getTemplateString(String path) throws IOException {
+	public String getTemplateString(String path) throws IOException {
 		return FileUtils.readFileToString(new File(path));
 	}
 

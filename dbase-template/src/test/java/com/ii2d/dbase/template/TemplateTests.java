@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import com.ii2d.dbase.template.context.Context;
 import com.ii2d.dbase.template.finder.ClassTemplateFinder;
-import com.ii2d.dbase.template.finder.TemplateFinder;
+import com.ii2d.dbase.template.finder.DTemplateFinder;
 
 /**
  * @author Doni
@@ -19,8 +19,8 @@ public class TemplateTests {
 
 	@Test
 	public void testRender() throws ParserException, IOException {
-		TemplateFinder.register(new ClassTemplateFinder(TemplateTests.class));
-		Template t = new Template(TestUtil.loadFile("grandpa.tmpl"), new Context());
+		DTemplateFinder.register(new ClassTemplateFinder(TemplateTests.class));
+		DTemplate t = new DTemplate(TestUtil.loadFile("grandpa.tmpl"), new Context());
 		assertNotNull(t.render());
 	}
 

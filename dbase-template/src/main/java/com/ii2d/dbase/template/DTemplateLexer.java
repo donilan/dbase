@@ -18,9 +18,9 @@ import com.ii2d.dbase.template.token.Token;
  * @version $id$
  * 
  */
-public class Lexer {
+public class DTemplateLexer {
 	
-	private static final Pattern re = Pattern.compile("(\\{%[^%]*%})");
+	private static final Pattern re = Pattern.compile("(\\{\\{[^}]*}})");
 
 	public static List<Token> tokenize(String content) throws ParserException {
 		if(StringUtils.isBlank(content)) {

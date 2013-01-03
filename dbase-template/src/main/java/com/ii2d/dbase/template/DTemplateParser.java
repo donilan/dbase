@@ -20,11 +20,11 @@ import com.ii2d.dbase.template.token.Token;
  * @version $id$
  * 
  */
-public class Parser {
+public class DTemplateParser {
 	
 	private List<Token> tokenList;
 
-	public Parser(List<Token> tokenList) {
+	public DTemplateParser(List<Token> tokenList) {
 		this.tokenList = tokenList;
 		if(this.tokenList == null) {
 			this.tokenList = new ArrayList<Token>();

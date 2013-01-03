@@ -16,7 +16,7 @@ public class LexerTests {
 
 	@Test
 	public void testParser() throws ParserException {
-		assertTrue(Lexer.tokenize(TestUtil.loadFile("child.tmpl")).size() > 0);
+		assertTrue(DTemplateLexer.tokenize(TestUtil.loadFile("child.tmpl")).size() > 0);
 	}
 
 }

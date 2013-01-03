@@ -7,6 +7,6 @@ package com.ii2d.dbase.template;
  * @version $id$
  * 
  */
-public class TemplateUtils {
+public class DTemplateUtils {
 
 }

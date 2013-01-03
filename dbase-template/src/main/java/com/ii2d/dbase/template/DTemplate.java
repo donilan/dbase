@@ -12,20 +12,20 @@ import com.ii2d.dbase.template.node.NodeList;
  * @version $id$
  * 
  */
-public class Template {
+public class DTemplate {
 
 	protected String _content;
 	protected Context _context;
 	protected NodeList _nodeList;
 
-	public Template(String content, Context context) {
+	public DTemplate(String content, Context context) {
 		this._content = content;
 		this._context = context;
 	}
 
 	public NodeList parser() throws ParserException, IOException {
 		if (_nodeList == null) {
-			_nodeList = new Parser(Lexer.tokenize(_content)).parse(null);
+			_nodeList = new DTemplateParser(DTemplateLexer.tokenize(_content)).parse(null);
 		}
 		return _nodeList;
 	}

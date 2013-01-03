@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.ii2d.dbase.template.Parser;
+import com.ii2d.dbase.template.DTemplateParser;
 import com.ii2d.dbase.template.ParserException;
 import com.ii2d.dbase.template.node.Node;
 import com.ii2d.dbase.template.token.BlockToken;
@@ -30,9 +30,12 @@ public class TagLibrary {
 		_tags.put(t.getTagName(), t);
 	}
 
-	public static Node render(BlockToken token, Parser parser)
+	public static Node render(BlockToken token, DTemplateParser parser)
 			throws ParserException, IOException {
 		Tag t = _tags.get(token.getCommand());
+		if(t == null) {
+			throw new ParserException(String.format("Tag [%s] not found.", token.getCommand()));
+		}
 		t.init(token, parser);
 		return t.render();
 	}

@@ -11,7 +11,7 @@ import org.apache.commons.io.IOUtils;
  * @version $id$
  * 
  */
-public class ClassTemplateFinder extends TemplateFinder {
+public class ClassTemplateFinder extends DTemplateFinder {
 	
 	private Class<?> clazz;
 	public ClassTemplateFinder(Class clazz) {
@@ -19,7 +19,7 @@ public class ClassTemplateFinder extends TemplateFinder {
 	}
 
 	@Override
-	protected String getTemplateString(String tmplName) throws IOException {
+	public String getTemplateString(String tmplName) throws IOException {
 		return IOUtils.toString(clazz.getResourceAsStream(tmplName));
 	}
 

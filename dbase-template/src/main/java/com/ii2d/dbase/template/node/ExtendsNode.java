@@ -4,10 +4,10 @@ package com.ii2d.dbase.template.node;
 import java.io.IOException;
 
 import com.ii2d.dbase.template.ParserException;
-import com.ii2d.dbase.template.Template;
+import com.ii2d.dbase.template.DTemplate;
 import com.ii2d.dbase.template.context.BlockContext;
 import com.ii2d.dbase.template.context.Context;
-import com.ii2d.dbase.template.finder.TemplateFinder;
+import com.ii2d.dbase.template.finder.DTemplateFinder;
 
 /**
  * @author Doni
@@ -28,7 +28,7 @@ public class ExtendsNode extends Node {
 
 	@Override
 	public String render(Context context) throws IOException, ParserException {
-		Template t = TemplateFinder.getTemplate(this.parentTmplName, context);
+		DTemplate t = DTemplateFinder.getTemplate(this.parentTmplName, context);
 		NodeList parentNodeList = t.parser();
 		BlockContext blockContext = (BlockContext)context.get(BLOCK_CONTEXT);
 		if(blockContext == null) {

@@ -4,6 +4,7 @@ package com.ii2d.dbase.web.controller;
 import static com.ii2d.dbase.util.DFileNameUtils.removeBackPath;
 import static com.ii2d.dbase.util.DFileNameUtils.removePath;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -29,29 +30,28 @@ import com.ii2d.dbase.util.WebUtils;
  * 
  */
 @Controller
-@RequestMapping("/" + ResourcesController.PREFIX)
-public class ResourcesController {
+@RequestMapping("/" + StaticsController.PREFIX)
+public class StaticsController {
 
-	public static final String PREFIX = "resources";
-	public static final String BASE_CLASSPATH = "classpath:com/ii2d/resources/";
-	private static final Log LOG = LogFactory.getLog(ResourcesController.class);
+	public static final String PREFIX = "statics";
+	public static final String BASE_CLASSPATH = "classpath:statics/";
+	private static final Log LOG = LogFactory.getLog(StaticsController.class);
 
 	@RequestMapping(value = "**", method = RequestMethod.GET)
 	public void load(HttpServletRequest request, HttpServletResponse response) {
 		String uri = request.getRequestURI();
 		if (StringUtils.isNotBlank(uri)) {
 			StringBuffer file = new StringBuffer(20);
-			file.append(BASE_CLASSPATH).append(
-					removeBackPath(removePath(uri, PREFIX)));
+			file.append(removeBackPath(removePath(uri, PREFIX)));
 			if (LOG.isDebugEnabled()) {
 				LOG.debug("Try to load resource: " + file.toString());
 			}
 			try {
 				response.setHeader("content-type",
 						WebUtils.mimeType(FilenameUtils.getExtension(uri)));
-				InputStream in = DResourceUtils.getResourceAsStream(file
-						.toString());
-				IOUtils.copy(in, response.getOutputStream());
+
+				IOUtils.copy(_findInputStream(file.toString()),
+						response.getOutputStream());
 				response.flushBuffer();
 			} catch (IOException e) {
 				try {
@@ -64,4 +64,13 @@ public class ResourcesController {
 		}
 	}
 
+	private InputStream _findInputStream(String path) throws IOException {
+		InputStream in = null;
+		try {
+			in = new FileInputStream("statics/" + path);
+		} catch (IOException e) {
+			in = DResourceUtils.getResourceAsStream(BASE_CLASSPATH + path);
+		}
+		return in;
+	}
 }

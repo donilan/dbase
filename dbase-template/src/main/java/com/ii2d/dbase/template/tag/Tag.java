@@ -3,7 +3,7 @@ package com.ii2d.dbase.template.tag;
 
 import java.io.IOException;
 
-import com.ii2d.dbase.template.Parser;
+import com.ii2d.dbase.template.DTemplateParser;
 import com.ii2d.dbase.template.ParserException;
 import com.ii2d.dbase.template.node.Node;
 import com.ii2d.dbase.template.token.BlockToken;
@@ -17,9 +17,9 @@ import com.ii2d.dbase.template.token.BlockToken;
 public abstract class Tag {
 
 	protected BlockToken blockToken;
-	protected Parser parser;
+	protected DTemplateParser parser;
 
-	public void init(BlockToken blockToken, Parser parser) {
+	public void init(BlockToken blockToken, DTemplateParser parser) {
 		this.blockToken = blockToken;
 		this.parser = parser;
 	}

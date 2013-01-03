@@ -5,7 +5,7 @@ import java.io.IOException;
 
 import com.ii2d.dbase.template.ParserException;
 import com.ii2d.dbase.template.context.Context;
-import com.ii2d.dbase.template.finder.TemplateFinder;
+import com.ii2d.dbase.template.finder.DTemplateFinder;
 import com.ii2d.dbase.template.node.Node;
 
 /**
@@ -28,7 +28,7 @@ public class IncludeTag extends Tag {
 		return new Node() {
 			@Override
 			public String render(Context context) throws IOException, ParserException {
-				return TemplateFinder.getTemplate(
+				return DTemplateFinder.getTemplate(
 						that.blockToken.getArgs().get(0), null).render();
 			}
 		};
