@@ -36,6 +36,7 @@ public class ExtendsNode extends Node {
 			context.put(BLOCK_CONTEXT, blockContext);
 		}
 		blockContext.addBlocks(blocks);
+		blockContext.addBlocks(parentNodeList.getNodeListByClass(BlockNode.class));
 		return parentNodeList.render(context);
 	}
 

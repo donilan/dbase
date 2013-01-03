@@ -21,6 +21,7 @@ public class TemplateTests {
 	public void testRender() throws ParserException, IOException {
 		DTemplateFinder.register(new ClassTemplateFinder(TemplateTests.class));
 		DTemplate t = new DTemplate(TestUtil.loadFile("grandpa.tmpl"), new Context());
+		System.out.print(t.render());
 		assertNotNull(t.render());
 	}
 
