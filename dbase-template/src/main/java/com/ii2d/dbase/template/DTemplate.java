@@ -2,9 +2,11 @@
 package com.ii2d.dbase.template;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.ii2d.dbase.template.context.Context;
 import com.ii2d.dbase.template.node.NodeList;
+import com.ii2d.dbase.template.token.Token;
 
 /**
  * @author Doni
@@ -25,7 +27,9 @@ public class DTemplate {
 
 	public NodeList parser() throws ParserException, IOException {
 		if (_nodeList == null) {
-			_nodeList = new DTemplateParser(DTemplateLexer.tokenize(_content)).parse(null);
+			List<Token> tokens = DTemplateLexer.tokenize(_content);
+			DTemplateParser parser = new DTemplateParser(tokens);
+			_nodeList = parser.parse(null);
 		}
 		return _nodeList;
 	}

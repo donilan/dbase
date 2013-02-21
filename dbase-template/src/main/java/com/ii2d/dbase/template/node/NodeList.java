@@ -25,7 +25,7 @@ public class NodeList extends ArrayList<Node> {
 		return sb.toString();
 	}
 
-	public NodeList getNodeListByClass(Class clazz) {
+	public NodeList getNodeListByClass(@SuppressWarnings("rawtypes") Class clazz) {
 		NodeList nodeList = new NodeList();
 		for(Node n: this) {
 			if(n.getClass().equals(clazz))

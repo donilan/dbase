@@ -6,7 +6,7 @@
 	<parent>
 		<artifactId>dbase</artifactId>
 		<groupId>com.ii2d</groupId>
-		<version>0.1.2</version>
+		<version>0.1.3</version>
 	</parent>
 	<artifactId>dbase-utils</artifactId>
 	<name>dbase-utils</name>

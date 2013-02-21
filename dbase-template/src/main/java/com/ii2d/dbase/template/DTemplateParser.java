@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
+import com.ii2d.dbase.template.node.Node;
 import com.ii2d.dbase.template.node.NodeList;
 import com.ii2d.dbase.template.node.TextNode;
 import com.ii2d.dbase.template.tag.TagLibrary;
@@ -41,7 +42,8 @@ public class DTemplateParser {
 				BlockToken token = (BlockToken)t;
 				if(StringUtils.equals(until, token.getCommand()))
 					break;
-				nodeList.add(TagLibrary.render(token, this));
+				Node node = TagLibrary.render(token, this);
+				nodeList.add(node);
 			}
 			
 		}

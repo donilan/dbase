@@ -14,7 +14,7 @@ import org.apache.commons.io.IOUtils;
 public class ClassTemplateFinder extends DTemplateFinder {
 	
 	private Class<?> clazz;
-	public ClassTemplateFinder(Class clazz) {
+	public ClassTemplateFinder(@SuppressWarnings("rawtypes") Class clazz) {
 		this.clazz = clazz;
 	}
 
