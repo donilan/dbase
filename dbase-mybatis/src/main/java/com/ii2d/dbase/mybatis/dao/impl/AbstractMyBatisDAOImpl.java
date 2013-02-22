@@ -67,6 +67,7 @@ public abstract class AbstractMyBatisDAOImpl extends SqlSessionTemplate implemen
 		return selectOne(_getSqlMapId(METHOD_COUNT, clazz), o);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public <T> T selectById(Object id, Class<?> clazz) {
 		return (T) selectOne(
 				_getSqlMapId(METHOD_SELECT_BY_ID, clazz), id);

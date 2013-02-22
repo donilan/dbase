@@ -32,6 +32,7 @@ public class DBUtils {
 
 	private static final Log LOG = LogFactory.getLog(DBUtils.class);
 
+	@SuppressWarnings("unchecked")
 	public static void setParameters(PreparedStatement ps,
 			MappedStatement mappedStatement, BoundSql boundSql,
 			Object parameterObject) throws SQLException {
@@ -74,6 +75,7 @@ public class DBUtils {
 									.getValue(propertyName);
 						}
 					}
+					@SuppressWarnings("rawtypes")
 					TypeHandler typeHandler = parameterMapping.getTypeHandler();
 					if (typeHandler == null) {
 						throw new ExecutorException(

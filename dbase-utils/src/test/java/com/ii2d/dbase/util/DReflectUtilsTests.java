@@ -14,6 +14,7 @@ import junit.framework.TestCase;
  */
 public class DReflectUtilsTests extends TestCase {
 	
+	@SuppressWarnings("rawtypes")
 	public void testGetFinalNames() {
 		List names = DReflectUtils.getFinalNames(Types.class, null);
 		assertTrue(names.size() > 0);

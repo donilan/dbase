@@ -16,6 +16,7 @@ public class Page<E> {
 	private int limit = 10;
 	private Collection<E> data;
 
+	@SuppressWarnings("unchecked")
 	public static <T> Page<T> make(PaginationResultHandler rh) {
 		Page<T> p = new Page<T>();
 		if(rh != null) {

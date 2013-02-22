@@ -49,9 +49,10 @@ public class StaticsController {
 			try {
 				response.setHeader("content-type",
 						WebUtils.mimeType(FilenameUtils.getExtension(uri)));
-
-				IOUtils.copy(_findInputStream(file.toString()),
+				InputStream in = _findInputStream(file.toString());
+				IOUtils.copy(in,
 						response.getOutputStream());
+				in.close();
 				response.flushBuffer();
 			} catch (IOException e) {
 				try {
@@ -64,6 +65,7 @@ public class StaticsController {
 		}
 	}
 
+	@SuppressWarnings("resource")
 	private InputStream _findInputStream(String path) throws IOException {
 		InputStream in = null;
 		try {
